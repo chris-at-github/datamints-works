@@ -34,9 +34,17 @@ class BoardController extends ApiController {
 	 * @return void
 	 */
 	public function findAction() {
-		$this->view->setVariablesToRender(['boards', 'board']);
-
+		$this->view->setVariablesToRender(['boards']);
 		$this->view->assign('boards', $this->boardRepository->find());
+	}
+
+	/**
+	 * Find action
+	 *
+	 * @return void
+	 */
+	public function boardAction() {
+		$this->view->setVariablesToRender(['board']);
 		$this->view->assign('board', $this->boardRepository->find()->getFirst());
 	}
 }

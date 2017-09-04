@@ -110,7 +110,7 @@ class JsonView extends \TYPO3\CMS\Extbase\Mvc\View\JsonView {
 	protected $configuration = [
 		'boards' => [
 			'_descendAll' => [
-				'_only' => ['uid', 'title', 'container'],
+				'_only' => ['uid', 'title'],
 			]
 		],
 
@@ -123,13 +123,6 @@ class JsonView extends \TYPO3\CMS\Extbase\Mvc\View\JsonView {
 					]
 				]
 			],
-//			'_descendAll' => [
-//				'container' => [
-//					'_descendAll' => [
-//						'_only' => ['uid']
-//					]
-//				]
-//			]
 		],
 	];
 

@@ -1,5 +1,15 @@
 page = PAGE
 page {
+	headerData {
+		1504538999 = COA
+		1504538999 {
+			wrap = <script> | </script>
+
+			10 = TEXT
+			10.value = var DatamintsWorks = {};
+		}
+	}
+
 	10 = FLUIDTEMPLATE
 	10 {
 		templateName = Default
