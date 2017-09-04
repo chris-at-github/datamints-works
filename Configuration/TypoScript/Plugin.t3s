@@ -1,0 +1,27 @@
+plugin.tx_datamintsworks {
+	view {
+		layoutRootPaths.0 = {$plugin.tx_datamintsworks.view.layoutRootPath}
+		templateRootPaths.0 = {$plugin.tx_datamintsworks.view.templateRootPath}
+		partialRootPaths.0 = {$plugin.tx_datamintsworks.view.partialRootPath}
+	}
+
+	persistence {
+		storagePid = {$plugin.tx_datamintsworks.persistence.storagePid}
+		#recursive = 1
+	}
+
+	features {
+		#skipDefaultArguments = 1
+		# if set to 1, the enable fields are ignored in BE context
+		ignoreAllEnableFieldsInBe =
+
+		# Should be on by default, but can be disabled if all action in the plugin are uncached
+		requireCHashArgumentForActionArguments = 1
+	}
+
+	mvc {
+		#callDefaultActionIfActionCantBeResolved = 1
+	}
+}
+
+plugin.tx_datamintsworks_frontend < plugin.tx_datamintsworks

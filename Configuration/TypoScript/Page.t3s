@@ -1,0 +1,31 @@
+page = PAGE
+page {
+	10 = FLUIDTEMPLATE
+	10 {
+		templateName = Default
+
+		templateRootPaths {
+			10 = {$plugin.tx_datamintsworks.view.templateRootPath}
+		}
+
+		layoutRootPaths {
+			10 = {$plugin.tx_datamintsworks.view.layoutRootPath}
+		}
+
+		partialRootPaths {
+			10 = {$plugin.tx_datamintsworks.view.partialRootPath}
+		}
+
+		variables {
+			content = CONTENT
+			content {
+				table = tt_content
+				select {
+					orderBy = sorting
+					where = colPos = 0
+					languageField = sys_language_uid
+				}
+			}
+		}
+	}
+}
