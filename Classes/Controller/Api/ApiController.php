@@ -17,4 +17,14 @@ namespace Datamints\DatamintsWorks\Controller\Api;
  * @package DatamintsWorks
  */
 class ApiController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
+
+	/**
+	 * @var \TYPO3\CMS\Extbase\Mvc\View\JsonView
+	 */
+	protected $view;
+
+	/**
+	 * @var string
+	 */
+	protected $defaultViewObjectName = \Datamints\DatamintsWorks\View\JsonView::class;
 }

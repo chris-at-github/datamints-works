@@ -21,16 +21,6 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 class BoardController extends ApiController {
 
 	/**
-	 * @var \TYPO3\CMS\Extbase\Mvc\View\JsonView
-	 */
-	protected $view;
-
-	/**
-	 * @var string
-	 */
-	protected $defaultViewObjectName = \Datamints\DatamintsWorks\View\JsonView::class;
-
-	/**
 	 * boardRepository
 	 *
 	 * @var \Datamints\DatamintsWorks\Domain\Repository\BoardRepository
@@ -48,9 +38,5 @@ class BoardController extends ApiController {
 
 		$this->view->assign('boards', $this->boardRepository->find());
 		$this->view->assign('board', $this->boardRepository->find()->getFirst());
-
-//		DebuggerUtility::var_dump($this->boardRepository->find());
-//		return true;
-////		$this->view->assign('boards', $this->boardRepository->find());
 	}
 }

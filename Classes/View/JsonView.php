@@ -1,5 +1,6 @@
 <?php
 namespace Datamints\DatamintsWorks\View;
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility as DebuggerUtility;
 
 /**
  * A JSON view
@@ -109,14 +110,41 @@ class JsonView extends \TYPO3\CMS\Extbase\Mvc\View\JsonView {
 	protected $configuration = [
 		'boards' => [
 			'_descendAll' => [
-				'_exclude' => ['pid'],
+				'_only' => ['uid', 'title', 'container'],
 			]
 		],
 
 		'board' => [
-			'_only' => ['uid', 'title'],
-
-//			'_exclude' => ['pid']
+			'_only' => ['uid', 'title', 'container'],
+			'_descend' => [
+				'container' => [
+					'_descendAll' => [
+						'_only' => ['uid', 'title']
+					]
+				]
+			],
+//			'_descendAll' => [
+//				'container' => [
+//					'_descendAll' => [
+//						'_only' => ['uid']
+//					]
+//				]
+//			]
 		],
 	];
+
+	/**
+	 * Always transforming ObjectStorages to Arrays for the JSON view
+	 *
+	 * @param mixed $value
+	 * @param array $configuration
+	 * @return array
+	 */
+	protected function transformValue($value, array $configuration)	{
+		if($value instanceof \TYPO3\CMS\Extbase\Persistence\ObjectStorage || $value instanceof \TYPO3\CMS\Extbase\Persistence\Generic\LazyObjectStorage) {
+			$value = $value->toArray();
+		}
+
+		return parent::transformValue($value, $configuration);
+	}
 }
