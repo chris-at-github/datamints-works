@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-09-02T00:29:23Z" product-name="datamints_works">
+		<header/>
+		<body>
+			<trans-unit id="tx_datamintsworks_domain_model_board">
+				<source>Board</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_board.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_board.container">
+				<source>Container</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_container">
+				<source>Container</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_container.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_container.card">
+				<source>Card</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_card">
+				<source>Card</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_card.title">
+				<source>Title</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
