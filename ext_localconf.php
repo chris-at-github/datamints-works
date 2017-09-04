@@ -15,6 +15,19 @@ call_user_func(function() {
 		]
 	);
 
+	\TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+		'Datamints.DatamintsWorks',
+		'Api',
+		[
+			'Api\Board' => 'find',
+		],
+
+		// non-cacheable actions
+		[
+			'Api\Board' => 'find',
+		]
+	);
+
 	// wizards
 	\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
 		'mod {

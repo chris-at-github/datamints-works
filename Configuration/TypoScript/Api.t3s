@@ -1,0 +1,22 @@
+api = PAGE
+api {
+	typeNum = 1504532915
+
+	config {
+		disableAllHeaderCode = 1
+		debug = 0
+		no_cache = 1
+	}
+
+	10 = USER
+	10 {
+		userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+		vendorName = Datamints
+		extensionName = DatamintsWorks
+		pluginName = Api
+
+		view < plugin.tx_datamintsworks.view
+		persistence < plugin.tx_datamintsworks.persistence
+		settings < plugin.tx_datamintsworks.settings
+	}
+}

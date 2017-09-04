@@ -31,6 +31,6 @@ class BoardRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 	public function find($options = []) {
 		$query = $this->createQuery();
 
-		return $query->execute(true);
+		return $query->execute();
 	}
 }

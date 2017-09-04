@@ -1,3 +1,4 @@
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:datamints_works/Configuration/TypoScript/Plugin.t3s">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:datamints_works/Configuration/TypoScript/Config.t3s">
 <INCLUDE_TYPOSCRIPT: source="FILE:EXT:datamints_works/Configuration/TypoScript/Page.t3s">
+<INCLUDE_TYPOSCRIPT: source="FILE:EXT:datamints_works/Configuration/TypoScript/Api.t3s">
