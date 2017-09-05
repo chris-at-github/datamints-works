@@ -1,5 +1,5 @@
 <?php
-namespace Datamints\DatamintsWorks\Controller;
+namespace Datamints\DatamintsWorks\Controller\Api;
 
 /***
  *
@@ -15,11 +15,11 @@ namespace Datamints\DatamintsWorks\Controller;
 use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
- * BoardController
+ * ApplicationController
  * @package DatamintsWorks
  */
-class BoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
-{
+class ApplicationController extends ApiController {
+
 	/**
 	 * boardRepository
 	 *
@@ -29,12 +29,15 @@ class BoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	protected $boardRepository = null;
 
 	/**
-	 * Index action
+	 * Find action
 	 *
-	 * @param \Datamints\DatamintsWorks\Domain\Model\Board $board $board
 	 * @return void
 	 */
-	public function indexAction(\Datamints\DatamintsWorks\Domain\Model\Board $board = null) {
-		$this->view->assign('board', $board);
+	public function indexAction() {
+//		$this->view->setVariablesToRender(['boards']);
+//		$this->view->assign('boards', $this->boardRepository->find());
+
+		$this->view->setVariablesToRender(['user', 'boards']);
+		$this->view->assign('boards', $this->boardRepository->find());
 	}
 }

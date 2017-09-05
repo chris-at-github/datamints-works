@@ -7,6 +7,9 @@ page {
 
 			10 = TEXT
 			10.value = var DatamintsWorks = {};
+
+			20 = TEXT
+			20.value = DatamintsWorks.Store = {};
 		}
 	}
 

@@ -19,11 +19,13 @@ call_user_func(function() {
 		'Datamints.DatamintsWorks',
 		'Api',
 		[
+			'Api\Application' => 'index',
 			'Api\Board' => 'find',
 		],
 
 		// non-cacheable actions
 		[
+			'Api\Application' => 'index',
 			'Api\Board' => 'find',
 		]
 	);
