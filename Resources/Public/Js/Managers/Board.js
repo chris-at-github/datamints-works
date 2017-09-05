@@ -14,5 +14,18 @@ export default {
 
 	find: function() {
 		return DatamintsWorks.Store.Boards;
+	},
+
+	/**
+	 * Liefert alle Informationen zu einem Board
+	 *
+	 * @param int uid
+	 * @return object
+	 */
+	get: function(uid) {
+		return {
+			'uid': uid,
+			'title': 'abc.de'
+		};
 	}
 };
