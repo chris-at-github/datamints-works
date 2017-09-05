@@ -29,7 +29,7 @@
 		},
 
 		created: function() {
-			this.boards = DatamintsWorks.Store.Boards;
+			this.boards = BoardManager.find();
 		}
 	}
 </script>

@@ -10,5 +10,9 @@ export default {
 		_.each(boards, function(board) {
 			DatamintsWorks.Store.Boards.push(board);
 		});
+	},
+
+	find: function() {
+		return DatamintsWorks.Store.Boards;
 	}
 };
