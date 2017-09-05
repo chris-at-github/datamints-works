@@ -18,16 +18,6 @@
 			}
 		},
 
-//		computed: {
-//			// whenever question changes, this function will run
-//			boards: function() {
-//				console.log(BoardManager.storage)
-//			}
-//		},
-
-		methods: {
-		},
-
 		created: function() {
 			this.boards = BoardManager.find();
 		}
