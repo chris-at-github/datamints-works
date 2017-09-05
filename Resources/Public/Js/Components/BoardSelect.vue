@@ -2,7 +2,7 @@
 	<div class="wks-board-select">
 		<ul>
 			<li v-for="board in boards">
-				<a v-bind:href="'/index.php?id=3&tx_datamintsworks_frontend[controller]=board&tx_datamintsworks_frontend[action]=index&tx_datamintsworks_frontend[board]=' + board.uid">{{board.title}}</a>
+				<a v-bind:href="'/index.php?id=3&tx_datamintsworks_frontend[controller]=Board&tx_datamintsworks_frontend[action]=index&tx_datamintsworks_frontend[board]=' + board.uid">{{board.title}}</a>
 			</li>
 		</ul>
 	</div>
