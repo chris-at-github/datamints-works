@@ -6,10 +6,10 @@ page {
 			wrap = <script> | </script>
 
 			10 = TEXT
-			10.value = var DatamintsWorks = {};
+			10.value = var Works = {};
 
 			20 = TEXT
-			20.value = DatamintsWorks.Store = {};
+			20.value = Works.Store = {};
 		}
 	}
 
