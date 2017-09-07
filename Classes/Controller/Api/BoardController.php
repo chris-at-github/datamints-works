@@ -43,8 +43,8 @@ class BoardController extends ApiController {
 	 *
 	 * @return void
 	 */
-	public function boardAction() {
+	public function getAction() {
 		$this->view->setVariablesToRender(['board']);
-		$this->view->assign('board', $this->boardRepository->find()->getFirst());
+		$this->view->assign('board', $this->boardRepository->findByUid(1));
 	}
 }

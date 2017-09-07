@@ -20,13 +20,13 @@ call_user_func(function() {
 		'Api',
 		[
 			'Api\Application' => 'index',
-			'Api\Board' => 'find',
+			'Api\Board' => 'get',
 		],
 
 		// non-cacheable actions
 		[
 			'Api\Application' => 'index',
-			'Api\Board' => 'find',
+			'Api\Board' => 'get',
 		]
 	);
 

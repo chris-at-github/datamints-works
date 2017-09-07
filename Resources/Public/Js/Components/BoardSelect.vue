@@ -21,12 +21,7 @@
 
 		created: function() {
 			this.boards = BoardManager.find();
-			console.log(this.boards);
-			_.delay(function() {
-				BoardManager.get(2);
-				console.log(this.boards);
-			}, 2000);
-
+			BoardManager.get(1);
 		}
 	}
 </script>
