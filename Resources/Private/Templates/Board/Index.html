@@ -2,6 +2,10 @@
 	<f:layout name="Application" />
 
 	<f:section name="Main">
+		<f:for each="{boards}" as="board">
+			<f:link.action action="index" arguments="{board: board}">{board.title}</f:link.action> |
+		</f:for>
+
 		<wks-board uid="{board.uid}" />
 	</f:section>
 </html>

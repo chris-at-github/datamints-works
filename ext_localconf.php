@@ -56,4 +56,8 @@ call_user_func(function() {
 		\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
 		['source' => 'EXT:datamints_works/Resources/Public/Icons/user_plugin_frontend.svg']
 	);
+
+	// Kein cHash fuer Board-Parameter
+	// @todo: Nur fuer die Entwicklung
+	// $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'][] = 'tx_datamintsworks_frontend[board]';
 });

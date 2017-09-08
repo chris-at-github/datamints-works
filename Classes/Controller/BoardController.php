@@ -35,6 +35,7 @@ class BoardController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 	 * @return void
 	 */
 	public function indexAction(\Datamints\DatamintsWorks\Domain\Model\Board $board = null) {
+		$this->view->assign('boards', $this->boardRepository->find());
 		$this->view->assign('board', $board);
 	}
 }
