@@ -1,6 +1,8 @@
 <?php
 namespace Datamints\DatamintsWorks\Controller;
 
+use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
+
 /***
  *
  * This file is part of the "Datamints Works" Extension for TYPO3 CMS.
@@ -11,8 +13,6 @@ namespace Datamints\DatamintsWorks\Controller;
  *  (c) 2017 Christian Pschorr <c.pschorr@datamints.com>, datamints GmbH
  *
  ***/
-
-use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 
 /**
  * BoardController
