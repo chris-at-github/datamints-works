@@ -33,6 +33,15 @@
 			<trans-unit id="tx_datamints_works_frontend.description">
 				<source>Display Boards, Calendars, Timesheets</source>
 			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_user">
+				<source>User</source>
+			</trans-unit>
+			<trans-unit id="tx_datamintsworks_domain_model_user.username">
+				<source>Username</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tx_extbase_type.Tx_DatamintsWorks_User">
+				<source>Datamints Works User</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

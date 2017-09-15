@@ -8,6 +8,7 @@ CREATE TABLE tx_datamintsworks_domain_model_board (
 
 	title varchar(255) DEFAULT '' NOT NULL,
 	container int(11) unsigned DEFAULT '0' NOT NULL,
+  users int(11) unsigned DEFAULT '0' NOT NULL,
 
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
@@ -148,4 +149,18 @@ CREATE TABLE tx_datamintsworks_container_card_mm (
 	PRIMARY KEY (uid_local,uid_foreign),
 	KEY uid_local (uid_local),
 	KEY uid_foreign (uid_foreign)
+);
+
+#
+# Table structure for table 'tx_datamintsworks_board_user_mm'
+#
+CREATE TABLE tx_datamintsworks_board_user_mm (
+  uid_local int(11) unsigned DEFAULT '0' NOT NULL,
+  uid_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+  sorting int(11) unsigned DEFAULT '0' NOT NULL,
+  sorting_foreign int(11) unsigned DEFAULT '0' NOT NULL,
+
+  PRIMARY KEY (uid_local,uid_foreign),
+  KEY uid_local (uid_local),
+  KEY uid_foreign (uid_foreign)
 );

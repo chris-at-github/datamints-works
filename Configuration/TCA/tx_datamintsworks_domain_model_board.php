@@ -21,10 +21,10 @@ return [
 		'iconfile' => 'EXT:datamints_works/Resources/Public/Icons/tx_datamintsworks_domain_model_board.gif'
 	],
 	'interface' => [
-		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, container',
+		'showRecordFieldList' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, container, users',
 	],
 	'types' => [
-		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, container, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'],
+		'1' => ['showitem' => 'sys_language_uid, l10n_parent, l10n_diffsource, hidden, title, container, users, --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:tabs.access, starttime, endtime'],
 	],
 	'columns' => [
 		'sys_language_uid' => [
@@ -136,6 +136,48 @@ return [
 					'showAllLocalizationLink' => 1
 				],
 			],
+		],
+		'users' => [
+			'exclude' => true,
+			'label' => 'LLL:EXT:datamints_works/Resources/Private/Language/locallang_db.xlf:tx_datamintsworksbuild_domain_model_board.users',
+			'config' => [
+				'type' => 'select',
+				'renderType' => 'selectMultipleSideBySide',
+				'foreign_table' => 'fe_users',
+				'MM' => 'tx_datamintsworks_board_user_mm',
+				'size' => 10,
+				'autoSizeMax' => 30,
+				'maxitems' => 9999,
+				'multiple' => 0,
+				'wizards' => [
+					'_PADDING' => 1,
+					'_VERTICAL' => 1,
+					'edit' => [
+						'module' => [
+							'name' => 'wizard_edit',
+						],
+						'type' => 'popup',
+						'title' => 'Edit', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.edit
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
+						'popup_onlyOpenIfSelected' => 1,
+						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+					],
+					'add' => [
+						'module' => [
+							'name' => 'wizard_add',
+						],
+						'type' => 'script',
+						'title' => 'Create new', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.add
+						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
+						'params' => [
+							'table' => 'fe_users',
+							'pid' => '###CURRENT_PID###',
+							'setValue' => 'prepend'
+						],
+					],
+				],
+			],
+
 		],
 	],
 ];
