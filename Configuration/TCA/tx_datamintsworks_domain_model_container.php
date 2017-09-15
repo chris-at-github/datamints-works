@@ -119,6 +119,9 @@ return [
 				'eval' => 'trim,required'
 			],
 		],
+
+		// Bidirektionale Verbindungen zwischen Cards und Container
+		// @see: http://www.typo3tiger.de/blog/post/typo3-bidirektionale-mm-relation-tca-extbase.html
 		'card' => [
 			'exclude' => true,
 			'label' => 'LLL:EXT:datamints_works/Resources/Private/Language/locallang_db.xlf:tx_datamintsworks_domain_model_container.card',
@@ -127,6 +130,7 @@ return [
         'internal_type' => 'db',
 				'allowed' => 'tx_datamintsworks_domain_model_card',
 				'MM' => 'tx_datamintsworks_container_card_mm',
+				'multiple' => 1,
         'fieldControl' => [
 					'editPopup' => [
 						'disabled' => false,
@@ -144,6 +148,7 @@ return [
         ],
     	],
 		],
+
 		'board' => [
 			'config' => [
 				'type' => 'passthrough',
