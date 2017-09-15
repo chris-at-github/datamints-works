@@ -6,6 +6,13 @@ use TYPO3\CMS\Extbase\Utility\DebuggerUtility;
 class Tca {
 
 	/**
+	 * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+	 */
+	protected function getDatabase() {
+		return $GLOBALS['TYPO3_DB'];
+	}
+
+	/**
 	 * liefert den Titel fuer Container in Auflistungen
 	 *
 	 * @param array $parameter

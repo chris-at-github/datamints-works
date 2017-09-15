@@ -123,45 +123,27 @@ return [
 			'exclude' => true,
 			'label' => 'LLL:EXT:datamints_works/Resources/Private/Language/locallang_db.xlf:tx_datamintsworks_domain_model_container.card',
 			'config' => [
-				'type' => 'select',
-				'renderType' => 'selectSingleBox',
-				'foreign_table' => 'tx_datamintsworks_domain_model_card',
+        'type' => 'group',
+        'internal_type' => 'db',
+				'allowed' => 'tx_datamintsworks_domain_model_card',
 				'MM' => 'tx_datamintsworks_container_card_mm',
-				'size' => 10,
-				'autoSizeMax' => 30,
-				'maxitems' => 9999,
-				'multiple' => 0,
-				'wizards' => [
-					'_PADDING' => 1,
-					'_VERTICAL' => 1,
-					'edit' => [
-						'module' => [
-							'name' => 'wizard_edit',
-						],
-						'type' => 'popup',
-						'title' => 'Edit', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.edit
-						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_edit.gif',
-						'popup_onlyOpenIfSelected' => 1,
-						'JSopenParams' => 'height=350,width=580,status=0,menubar=0,scrollbars=1',
+        'fieldControl' => [
+					'editPopup' => [
+						'disabled' => false,
 					],
-					'add' => [
-						'module' => [
-							'name' => 'wizard_add',
-						],
-						'type' => 'script',
-						'title' => 'Create new', // todo define label: LLL:EXT:.../Resources/Private/Language/locallang_tca.xlf:wizard.add
-						'icon' => 'EXT:backend/Resources/Public/Images/FormFieldWizard/wizard_add.gif',
-						'params' => [
-							'table' => 'tx_datamintsworks_domain_model_card',
-							'pid' => '###CURRENT_PID###',
-							'setValue' => 'prepend'
-						],
+					'addRecord' => [
+						'disabled' => false,
+						'pid' => '###CURRENT_PID###',
 					],
-				],
-			],
-
+					'listModule' => [
+						'disabled' => false,
+					],
+					'elementBrowser' => [
+						'disabled' => false,
+					],
+        ],
+    	],
 		],
-
 		'board' => [
 			'config' => [
 				'type' => 'passthrough',
