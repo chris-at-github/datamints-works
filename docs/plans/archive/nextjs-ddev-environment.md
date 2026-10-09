@@ -28,7 +28,7 @@ ESLint, Turbopack, `src/` directory, no Tailwind CSS, no database.
 
 - [x] `ddev start` completes without errors.
 - [x] `ddev exec npm run dev` starts the dev server and the start page is
-      reachable at <https://kingdom-frontend.ddev.site:3000>.
+      reachable at <https://datamints-works.ddev.site:3000>.
 - [x] A change to `src/app/page.tsx` shows up via Fast Refresh without a manual
       browser reload.
 - [x] `ddev exec npm run build` completes without errors and
@@ -70,11 +70,11 @@ oxlint was handled in the prototype.
 **`allowedDevOrigins` is required.** Since v15.3 Next.js rejects dev requests
 carrying a foreign `Host` header as protection against DNS rebinding — the same
 class of problem that `allowedHosts` solves for Vite. Without the entry, requests
-through `kingdom-frontend.ddev.site` are blocked or warned about.
+through `datamints-works.ddev.site` are blocked or warned about.
 
 **Fast Refresh over HTTPS is assumed to work unconfigured.** Next.js derives the
 HMR websocket target from the page origin, so it should connect to
-`wss://kingdom-frontend.ddev.site:3000` on its own — unlike Vite, which needed an
+`wss://datamints-works.ddev.site:3000` on its own — unlike Vite, which needed an
 explicit `hmr` block. Verified: the dev websocket lives at `/_next/hmr`, and the
 router upgrades it correctly (`101 Switching Protocols`, followed by a
 `turbopack-connected` message). No extra configuration was needed.
@@ -89,7 +89,7 @@ No polling configuration is required.
 
 ### 1. DDEV configuration
 
-- [x] Create `.ddev/config.yaml` with `name: kingdom-frontend`, `type: generic`,
+- [x] Create `.ddev/config.yaml` with `name: datamints-works`, `type: generic`,
       `webserver_type: generic`, `docroot: ""`, `nodejs_version: "24"`,
       `omit_containers: [db]`, `corepack_enable: false`.
 - [x] Add `web_extra_exposed_ports` for the Next.js dev server
@@ -110,10 +110,10 @@ No polling configuration is required.
 
 ### 3. Router integration
 
-- [x] Add `allowedDevOrigins` for `kingdom-frontend.ddev.site` to
+- [x] Add `allowedDevOrigins` for `datamints-works.ddev.site` to
       `next.config.ts`.
 - [x] Start the dev server and confirm the start page loads at
-      <https://kingdom-frontend.ddev.site:3000>.
+      <https://datamints-works.ddev.site:3000>.
 - [x] Confirm the dev server binds to `0.0.0.0` inside the container, and pin the
       port so it cannot silently fall back to 3001.
 - [x] Verify Fast Refresh with a change to `src/app/page.tsx`; if events do not
