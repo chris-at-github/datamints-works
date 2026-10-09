@@ -1,0 +1,84 @@
+/*
+ * Design tokens as CSS custom properties.
+ * Note: custom properties cannot be used inside media queries.
+ */
+@layer base {
+  :root {
+    /* Fixed endpoints, kept outside the neutral scale so they stay pure if the grays get tinted. */
+    --color-base-white: oklch(100% 0 0deg);
+    --color-base-black: oklch(0% 0 0deg);
+
+    /* Neutral scale from light to dark: 95% to 23% lightness in even 9% steps, so both ends stay distinct from white and black. */
+    --color-neutral-10: oklch(95% 0 0deg);
+    --color-neutral-20: oklch(86% 0 0deg);
+    --color-neutral-30: oklch(77% 0 0deg);
+    --color-neutral-40: oklch(68% 0 0deg);
+    --color-neutral-50: oklch(59% 0 0deg);
+    --color-neutral-60: oklch(50% 0 0deg);
+    --color-neutral-70: oklch(41% 0 0deg);
+    --color-neutral-80: oklch(32% 0 0deg);
+    --color-neutral-90: oklch(23% 0 0deg);
+
+    /* Special colors */
+    --color-ruler: var(--color-neutral-20);
+    --color-ruler-active: var(--color-neutral-70);
+    --color-outline: var(--color-neutral-70);
+    --color-background-active: var(--color-neutral-20);
+
+    /* Spacing */
+    --spacing-10: 2px;
+    --spacing-20: 4px;
+    --spacing-30: 8px;
+    --spacing-40: 12px;
+    --spacing-50: 16px;
+    --spacing-60: 24px;
+    --spacing-70: 32px;
+    --spacing-80: 48px;
+    --spacing-90: 64px;
+    --spacing-100: 96px;
+    --spacing-110: 128px;
+
+    /* Font */
+    --font-line-height: 1.6;
+    --font-size-default: 16px;
+    --font-size-small: 14px;
+    --font-size-large: 18px;
+    --font-weight-default: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-color-default: var(--color-neutral-70);
+    --font-color-important: var(--color-base-black);
+    --font-color-muted: var(--color-neutral-50);
+
+    /* Display */
+    --display-font-family: var(--font-family-default);
+    --display-line-height: 1.1;
+    --display-font-weight: 500;
+    --display-font-size-1: 32px;
+    --display-font-size-2: 24px;
+    --display-font-size-3: 18px;
+
+    /* Transitions */
+    --transition-duration-default: 150ms;
+
+    /* Border Radius */
+    --border-radius-small: 2px;
+    --border-radius-default: 4px;
+
+    /* Icon: 1em is resolved where it is used, so icons scale with their context. */
+    --icon-size: 1em;
+    --icon-stroke-width: 2;
+
+    /* Page */
+    --page-max-width: 960px;
+    --page-spacing-y: 32px;
+    --page-spacing-x: 16px;
+  }
+
+  /* Disables every transition that uses the duration variables. */
+  @media (prefers-reduced-motion: reduce) {
+    :root {
+      --transition-duration-default: 0s;
+    }
+  }
+}

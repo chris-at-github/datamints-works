@@ -1,0 +1,39 @@
+/*
+ * Display typography for headlines, independent of the heading level.
+ */
+@layer typography {
+  .display {
+    font-family: var(--display-font-family);
+    font-weight: var(--display-font-weight);
+    line-height: var(--display-line-height);
+    letter-spacing: 0.5px;
+  }
+
+  .display--layout-1 {
+    font-size: var(--display-font-size-1);
+  }
+
+  .display--layout-2 {
+    font-size: var(--display-font-size-2);
+  }
+
+  .display--layout-3 {
+    font-size: var(--display-font-size-3);
+  }
+
+  .text-large {
+    font-size: var(--font-size-large);
+  }
+
+  .text-small {
+    font-size: var(--font-size-small);
+  }
+
+  .text-muted {
+    color: var(--font-color-muted);
+  }
+
+  .text-important {
+    color: var(--font-color-important);
+  }
+}

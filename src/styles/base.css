@@ -1,0 +1,15 @@
+/*
+ * Base styles for plain HTML elements and the application shell.
+ */
+@layer base {
+  body {
+    /* --font-family-default is provided by next/font in src/app/layout.tsx. */
+    font-family: var(--font-family-default), system-ui, sans-serif;
+    font-size: var(--font-size-default);
+    line-height: var(--font-line-height);
+    color: var(--font-color-default);
+
+    /* Base UI: required for the scroll lock to work in iOS Safari. */
+    position: relative;
+  }
+}

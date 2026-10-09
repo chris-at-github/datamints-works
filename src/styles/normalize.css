@@ -1,0 +1,85 @@
+/*
+ * Modern normalize/reset hybrid, modelled on Josh Comeau and Andy Bell.
+ * Removes inconsistent browser defaults while keeping sensible behaviour.
+ */
+@layer normalize {
+  /* Include padding and border in the element's width and height. */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  /* Remove default margins; spacing is defined explicitly where needed. */
+  * {
+    margin: 0;
+  }
+
+  /* Prevent font size inflation on mobile after orientation changes. */
+  html {
+    text-size-adjust: none;
+  }
+
+  /* Readable default line height and smoother font rendering. */
+  body {
+    min-height: 100dvh;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Tighter line height for headings; balance short multi-line headings. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  /* Avoid orphaned words in paragraphs. */
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Break long words and URLs instead of overflowing their container. */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    overflow-wrap: break-word;
+  }
+
+  /* Media elements behave as blocks and never overflow their container. */
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Form controls inherit typography instead of using browser defaults. */
+  input,
+  button,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  /* Textareas without explicit rows get a sensible minimum height. */
+  textarea:not([rows]) {
+    min-height: 10em;
+  }
+
+  /* Keep some space above anchor targets when jumping to them. */
+  :target {
+    scroll-margin-block: 5ex;
+  }
+}

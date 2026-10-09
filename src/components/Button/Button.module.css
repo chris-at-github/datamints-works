@@ -1,0 +1,46 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 41px;
+  padding: var(--spacing-20) var(--spacing-60);
+  border: none;
+  border-radius: var(--border-radius-small);
+  background: var(--color-neutral-20);
+  font-weight: var(--font-weight-medium);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+
+  /* Focus ring only for keyboard focus, not for mouse clicks.
+     Placed before :hover, which has a higher specificity (no-descending-specificity). */
+  &:focus-visible:not([data-disabled]) {
+    outline: 2px solid var(--color-outline);
+    outline-offset: 2px;
+  }
+
+  &:hover:not([data-disabled]),
+  &:focus-visible:not([data-disabled]) {
+    background: var(--color-neutral-30);
+  }
+
+  &[data-disabled] {
+    background: var(--color-neutral-10);
+    color: var(--color-neutral-50);
+    cursor: not-allowed;
+  }
+}
+
+/* Square icon-only button; min-width mirrors the min-height of .button. */
+.button--icon {
+  min-width: 41px;
+  padding: var(--spacing-20);
+}
+
+.button-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-30);
+  list-style: none;
+  padding: 0;
+}

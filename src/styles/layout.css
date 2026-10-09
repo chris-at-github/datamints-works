@@ -1,0 +1,18 @@
+/*
+ * Global page layout, written in BEM notation.
+ */
+@layer layout {
+  .page {
+    /* Base UI: new stacking context so portalled popups always render above page content. */
+    isolation: isolate;
+    display: flex;
+    min-height: 100dvh;
+  }
+
+  .page__main {
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: var(--page-spacing-y) var(--page-spacing-x);
+  }
+}

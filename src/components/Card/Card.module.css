@@ -1,0 +1,25 @@
+.card {
+  min-width: 33%;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-40);
+  border: 1.5px solid var(--color-ruler);
+  border-radius: var(--border-radius-default);
+}
+
+.card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-neutral-20);
+  border-radius: var(--border-radius-small);
+  color: var(--font-color-default);
+}
+
+.card__icon--full {
+  --icon-size: 48px;
+  --icon-stroke-width: 1.25;
+
+  aspect-ratio: 16 / 9;
+  margin: var(--spacing-30);
+}

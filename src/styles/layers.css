@@ -1,0 +1,9 @@
+/*
+ * Cascade layer order: later layers win over earlier ones regardless of specificity.
+ * CSS Modules are unlayered and therefore win over all global styles.
+ *
+ * Kept in its own file and imported first: Turbopack inlines @import contents
+ * before any other rule of the importing file, so a declaration in
+ * application.css would end up after the layer blocks.
+ */
+@layer normalize, base, layout, typography, utilities;

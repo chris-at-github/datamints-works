@@ -1,0 +1,19 @@
+/*
+ * Single-purpose helper classes.
+ * CSS Modules are unlayered and win over this layer, so utilities must not
+ * overlap with component styles.
+ */
+@layer utilities {
+  /* Hide content visually while keeping it available to screen readers. */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+}
