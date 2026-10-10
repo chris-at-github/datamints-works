@@ -9,7 +9,7 @@ bewusst kurz gehalten und zum Nachschlagen gedacht, nicht zum Durchlesen.
 | --- | --- | --- |
 | Git | [git.md](git.md) | Squash-Merge, Commit-Typen |
 | DDEV | [ddev.md](ddev.md) | Umgebung starten, Befehle im Container, Dev-Server hinter dem Router, Build |
-| CSS | [css.md](css.md) | Globale Styles, Cascade Layers, CSS-Module, Komponenten und Module, Base-UI-Vorbereitung |
+| CSS | [css.md](css.md) | Globale Styles, Cascade Layers, CSS-Module, Komponenten und Module, Base-UI-Vorbereitung, mitwachsende Textfelder |
 | Base UI | [base-ui.md](base-ui.md) | Eigene Komponenten um Base UI, Server-/Client-Komponenten, Zustände stylen |
 | Linting | [lint.md](lint.md) | ESLint und Stylelint ausführen, Befunde beheben, `.editorconfig`, PhpStorm-Einrichtung |
 

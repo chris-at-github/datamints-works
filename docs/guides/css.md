@@ -117,3 +117,29 @@ funktionieren.
 - Base UI liefert keine Styles. Zustände werden als `data-*`-Attribute gesetzt
   und im CSS-Modul angesprochen, z. B. `.trigger[data-popup-open] { … }`.
 - Aufbau eigener Komponenten um Base UI: siehe [base-ui.md](base-ui.md).
+
+## Textfelder mit dem Inhalt wachsen lassen
+
+**Problem:** Ein `<textarea>` soll so hoch werden, wie sein Inhalt es braucht,
+ohne die Höhe per JavaScript (`scrollHeight`) zu messen.
+
+**Vorgehen:** `field-sizing: content` im CSS-Modul setzen, die Starthöhe kommt
+aus `rows`:
+
+```css
+.field--multiline {
+  field-sizing: content;
+  resize: none;
+}
+```
+
+```tsx
+<textarea rows={1} className={styles["field--multiline"]} />
+```
+
+**Hinweise:**
+
+- Browser ohne Unterstützung zeigen das Feld mit fester Höhe (`rows`), es geht
+  also nichts kaputt.
+- Ohne `rows` greift die Mindesthöhe aus `normalize.css` (`min-height: 10em`).
+- `resize: none`, weil ein manuell gezogenes Feld nicht mehr mitwächst.

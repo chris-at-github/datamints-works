@@ -25,7 +25,7 @@
 
 ## CSS
 - CSS-Klassennamen: überall kebab-case, auch in CSS-Modulen (`styles["primary-button"]`); BEM-Schreibweise erlaubt (`page__main`, `button--wide`).
-- Design-Tokens: Farben, Abstände, Typografie und Transitions kommen ausschließlich aus den Custom Properties in `src/styles/variables.css`, keine fest codierten Werte. Fehlt ein passender Token, frage mich, bevor ein neuer angelegt wird. Ausnahmen: `0`, `100%`, technische Werte ohne Design-Bezug (z. B. `1px` in `.visually-hidden`).
+- Design-Tokens: Verwende die Custom Properties aus `src/styles/variables.css`, wenn ihr Name zum Einsatzzweck passt — nicht nur, weil der Wert passt. Gibt es keinen passenden Token, darf der Wert direkt im CSS stehen.
 
 ## Befehle
 Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sind
