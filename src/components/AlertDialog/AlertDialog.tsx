@@ -2,7 +2,7 @@
 
 import { AlertDialog as BaseAlertDialog } from "@base-ui/react/alert-dialog";
 import { Button } from "@/components/Button/Button";
-import { mergeClassName } from "@/lib/class-names";
+import { mergeStateClassName } from "@/lib/class-names";
 import styles from "./AlertDialog.module.css";
 
 // Client component: the parts merge className functions and render the client
@@ -28,7 +28,7 @@ export function AlertDialogPopup({ className, ...props }: AlertDialogPopupProps)
   return (
     <BaseAlertDialog.Portal>
       <BaseAlertDialog.Backdrop className={styles["alert-dialog__backdrop"]} />
-      <BaseAlertDialog.Popup className={mergeClassName(styles["alert-dialog__popup"], className)} {...props} />
+      <BaseAlertDialog.Popup className={mergeStateClassName(styles["alert-dialog__popup"], className)} {...props} />
     </BaseAlertDialog.Portal>
   );
 }
@@ -36,7 +36,7 @@ export function AlertDialogPopup({ className, ...props }: AlertDialogPopupProps)
 export type AlertDialogTitleProps = BaseAlertDialog.Title.Props;
 
 export function AlertDialogTitle({ className, ...props }: AlertDialogTitleProps) {
-  return <BaseAlertDialog.Title className={mergeClassName(styles["alert-dialog__title"], className)} {...props} />;
+  return <BaseAlertDialog.Title className={mergeStateClassName(styles["alert-dialog__title"], className)} {...props} />;
 }
 
 export type AlertDialogDescriptionProps = BaseAlertDialog.Description.Props;
@@ -44,7 +44,7 @@ export type AlertDialogDescriptionProps = BaseAlertDialog.Description.Props;
 export function AlertDialogDescription({ className, ...props }: AlertDialogDescriptionProps) {
   return (
     <BaseAlertDialog.Description
-      className={mergeClassName(styles["alert-dialog__description"], className)}
+      className={mergeStateClassName(styles["alert-dialog__description"], className)}
       {...props}
     />
   );

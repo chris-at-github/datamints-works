@@ -16,17 +16,13 @@ Base-UI-Komponente, reicht alle Props durch und ergänzt die Modul-Klasse:
 "use client";
 
 import { Button as BaseButton } from "@base-ui/react/button";
+import { mergeStateClassName } from "@/lib/class-names";
 import styles from "./Button.module.css";
 
 export type ButtonProps = BaseButton.Props;
 
 export function Button({ className, ...props }: ButtonProps) {
-  const mergedClassName =
-    typeof className === "function"
-      ? (state: BaseButton.State) => joinClassNames(styles.button, className(state))
-      : joinClassNames(styles.button, className);
-
-  return <BaseButton className={mergedClassName} {...props} />;
+  return <BaseButton className={mergeStateClassName(styles.button, className)} {...props} />;
 }
 ```
 
@@ -35,7 +31,8 @@ export function Button({ className, ...props }: ButtonProps) {
 - Import pro Komponente: `@base-ui/react/<komponente>` (z. B. `/button`,
   `/dialog`). Typen liegen im Namespace: `BaseButton.Props`, `BaseButton.State`.
 - `className` darf bei Base UI ein String **oder** eine Funktion
-  `(state) => string` sein — beim Zusammenführen beide Fälle abdecken.
+  `(state) => string` sein. `mergeStateClassName` deckt beide Fälle ab;
+  `mergeClassName` nur für normale HTML-Elemente verwenden, es kennt nur Strings.
 - Module verwenden nur die eigenen Komponenten aus `src/components/`, nie Base UI
   direkt.
 

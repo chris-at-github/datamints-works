@@ -1,5 +1,5 @@
 import { Children, type ComponentProps } from "react";
-import { joinClassNames } from "@/lib/class-names";
+import { mergeClassName } from "@/lib/class-names";
 import styles from "./Button.module.css";
 
 export type GroupProps = ComponentProps<"ul">;
@@ -8,7 +8,7 @@ export type GroupProps = ComponentProps<"ul">;
 // so callers pass buttons directly.
 export function Group({ className, children, ...props }: GroupProps) {
   return (
-    <ul className={joinClassNames(styles["button-group"], className)} {...props}>
+    <ul className={mergeClassName(styles["button-group"], className)} {...props}>
       {Children.map(children, (child) =>
         child === null || child === undefined || typeof child === "boolean" ? null : <li>{child}</li>,
       )}

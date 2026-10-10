@@ -1,4 +1,4 @@
-import { joinClassNames } from "@/lib/class-names";
+import { mergeClassName } from "@/lib/class-names";
 import { completeTime, maskTime, roundTime } from "@/lib/time";
 import type { TimesheetEntry, TimesheetField } from "./entries";
 import styles from "./TimesheetRow.module.css";
@@ -24,7 +24,7 @@ export function TimesheetRow({ entry, rowNumber, onChange }: TimesheetRowProps) 
     }
   }
 
-  const multilineClassName = joinClassNames(styles["timesheet-row__field"], styles["timesheet-row__field--multiline"]);
+  const multilineClassName = mergeClassName(styles["timesheet-row__field"], styles["timesheet-row__field--multiline"]);
 
   return (
     <tr>

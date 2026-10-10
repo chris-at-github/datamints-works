@@ -1,5 +1,5 @@
 import { Icon, type IconComponent } from "@/components/Icon/Icon";
-import { joinClassNames } from "@/lib/class-names";
+import { mergeClassName } from "@/lib/class-names";
 import { Button, type ButtonProps } from "./Button";
 import styles from "./Button.module.css";
 
@@ -14,7 +14,7 @@ export type IconButtonProps = Omit<ButtonProps, "children" | "className"> & {
 // Icon-only buttons need an aria-label to get an accessible name.
 export function IconButton({ icon, className, ...props }: IconButtonProps) {
   return (
-    <Button className={joinClassNames(styles["button--icon"], className)} {...props}>
+    <Button className={mergeClassName(styles["button--icon"], className)} {...props}>
       <Icon icon={icon} />
     </Button>
   );

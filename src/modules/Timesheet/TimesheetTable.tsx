@@ -1,4 +1,4 @@
-import { joinClassNames } from "@/lib/class-names";
+import { mergeClassName } from "@/lib/class-names";
 import type { TimesheetEntry, TimesheetField } from "./entries";
 import { TimesheetRow } from "./TimesheetRow";
 import styles from "./TimesheetTable.module.css";
@@ -9,7 +9,7 @@ export type TimesheetTableProps = {
 };
 
 export function TimesheetTable({ entries, onChange }: TimesheetTableProps) {
-  const timeHeadClassName = joinClassNames(styles["timesheet-table__head"], styles["timesheet-table__head--time"]);
+  const timeHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--time"]);
 
   return (
     <table className={styles["timesheet-table"]}>
@@ -26,7 +26,7 @@ export function TimesheetTable({ entries, onChange }: TimesheetTableProps) {
           </th>
           <th
             scope="col"
-            className={joinClassNames(styles["timesheet-table__head"], styles["timesheet-table__head--ticket"])}
+            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--ticket"])}
           >
             Ticket
           </th>

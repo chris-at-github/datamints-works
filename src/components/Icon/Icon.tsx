@@ -1,5 +1,5 @@
 import type { ComponentProps, ComponentType } from "react";
-import { joinClassNames } from "@/lib/class-names";
+import { mergeClassName } from "@/lib/class-names";
 import styles from "./Icon.module.css";
 
 // Any component rendering an svg with its props: lucide icons today,
@@ -16,7 +16,7 @@ export function Icon({ icon: IconSvg, className, ...props }: IconProps) {
     <IconSvg
       aria-hidden="true"
       focusable="false"
-      className={joinClassNames(styles.icon, className)}
+      className={mergeClassName(styles.icon, className)}
       {...props}
     />
   );
