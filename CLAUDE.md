@@ -19,6 +19,7 @@
 - Umgebung: DDEV (`type: generic`, `webserver_type: generic`, ohne PHP und ohne DB-Container).
 - Styling: globale Styles mit Cascade Layers plus CSS Modules für Komponenten und Module, kein Tailwind.
 - Testing: TBD (wird erst im späteren Projektverlauf ergänzt)
+- Datenbank: SQLite über Prisma 7 (Driver Adapter `better-sqlite3`), Schema in `prisma/schema.prisma`, Client-Instanz in `src/lib/prisma.ts`.
 - Linting: ESLint 9 mit `eslint-config-next` (JS/TS) und Stylelint mit `stylelint-config-standard` (CSS) — Details in `docs/guides/lint.md`.
 - Formatting: kein Formatter; der Code-Stil steht in `.editorconfig` (inkl. `ij_*`-Angaben für PhpStorm). Neue und geänderte Dateien müssen `.editorconfig` entsprechen.
 - Code-Sprache (Bezeichner, Kommentare): Englisch.
@@ -38,6 +39,8 @@ Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sin
 - Build servieren: `ddev exec npm run start` (belegt denselben Port 3000)
 - Lint: `ddev exec npm run lint` (ESLint + Stylelint; einzeln `lint:js`, `lint:css`)
 - Lint-Fix: `ddev exec npm run lint:fix` (einzeln `lint:js:fix`, `lint:css:fix`)
+- Migration: `ddev exec npm run db:migrate` (Schema-Änderungen, legt `prisma/dev.db` an) — Details in `docs/guides/prisma.md`
+- Prisma-Client erzeugen: `ddev exec npm run db:generate` (läuft auch per `postinstall`)
 - Test: TBD
 
 ## Struktur
@@ -45,6 +48,9 @@ Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sin
 - `src/styles/` — globale Styles (Layer, Normalize, Variablen, Basis, Layout, Utilities), Einstieg `application.css` — Details in `docs/guides/css.md`.
 - `src/components/` — kleine UI-Bausteine, je Ordner mit `.tsx` und `.module.css`.
 - `src/modules/` — eigene Inhaltsbereiche aus Komponenten, gleiches Ordner-Muster.
+- `src/lib/` — gemeinsame Hilfsfunktionen und die Prisma-Client-Instanz.
+- `src/generated/` — von Prisma erzeugter Client, nicht in Git.
+- `prisma/` — Schema, Migrationen und die lokale SQLite-Datei (`dev.db`, nicht in Git).
 - `public/` — statische Dateien, die unverändert ausgeliefert werden.
 - `docs/guides/` — Kurzanleitungen auf Deutsch, Index in `docs/guides/README.md`.
 - `docs/plans/` — Spezifikationsdokumente auf Englisch, abgeschlossene unter `docs/plans/archive/`.

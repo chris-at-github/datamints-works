@@ -1,0 +1,11 @@
+// Prisma schema; the database URL lives in prisma.config.ts (Prisma 7).
+// Models are added in their own features.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
