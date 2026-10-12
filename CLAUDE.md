@@ -28,6 +28,10 @@
 - CSS-Klassennamen: überall kebab-case, auch in CSS-Modulen (`styles["primary-button"]`); BEM-Schreibweise erlaubt (`page__main`, `button--wide`).
 - Design-Tokens: Verwende die Custom Properties aus `src/styles/variables.css`, wenn ihr Name zum Einsatzzweck passt — nicht nur, weil der Wert passt. Gibt es keinen passenden Token, darf der Wert direkt im CSS stehen.
 
+## Komponenten
+- Neue Frontend-Komponenten: Prüfe zuerst, ob es in `src/components/` schon eine passende Komponente gibt. Gibt es keine, schlage passende Base-UI-Komponenten vor.
+- Base-UI-Komponenten nie direkt in Modulen oder Seiten verwenden, sondern immer über eine eigene Wrapper-Komponente in `src/components/` — Muster in `docs/guides/base-ui.md`.
+
 ## Befehle
 Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sind
 `ddev exec` und `ddev npm` hier gleichwertig — Details in `docs/guides/ddev.md`.
@@ -65,6 +69,7 @@ Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sin
     - Die Akzeptanzkriterien (Definition of Done) gebe ich in dieser Phase vor.
     - Ausnahme: Bei trivialen Änderungen (Tippfehler, Rename, Formatierung, offensichtliche Ein-Zeilen-Korrekturen) darf ohne Fragerunde und ohne Plandokument direkt umgesetzt werden.
     - Die Fragen werden auf Deutsch gestellt.
+    - Beantworte ich die Fragen nur teilweise (z. B. weil ich zwischendurch mit Enter abschicke), frage zu den noch offenen Fragen nach. Gehe nicht von deinen vorgeschlagenen Empfehlungen aus.
 
 2. **Planerstellung in `docs/plans/` (Phase 2)**
     - Erstelle nach Klärung aller Fragen ein Spezifikationsdokument unter `docs/plans/<feature-name>.md`.
