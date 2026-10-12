@@ -1,24 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { AlertDialog } from "@/components/AlertDialog";
 import { Button } from "@/components/Button";
-import { createEmptyEntries, type TimesheetField, updateEntry } from "./entries";
+import { saveEntry } from "./api";
+import {
+  createEmptyEntries,
+  getNextSorting,
+  roundEntryTime,
+  type TimesheetField,
+  type TimesheetPageData,
+  updateEntry,
+} from "./entries";
 import { TimesheetHeader } from "./TimesheetHeader";
 import { TimesheetTable } from "./TimesheetTable";
 import styles from "./TimesheetPage.module.css";
 
-const INITIAL_ROW_COUNT = 5;
 const ADDED_ROW_COUNT = 5;
 
 export type TimesheetPageProps = {
-  // Day of this page as "YYYY-MM-DD"; null until it is known in the browser.
-  date: string | null;
+  page: TimesheetPageData;
+  onNew: () => void;
 };
 
-// One page holds the entries of exactly one day.
-export function TimesheetPage({ date }: TimesheetPageProps) {
-  const [entries, setEntries] = useState(() => createEmptyEntries(INITIAL_ROW_COUNT));
+// One page holds the entries of exactly one day; the loaded entries are the
+// starting state, changes are kept here.
+export function TimesheetPage({ page, onNew }: TimesheetPageProps) {
+  const [entries, setEntries] = useState(page.entries);
 
   function handleChange(entryIndex: number, field: TimesheetField, value: string) {
     setEntries((currentEntries) =>
@@ -26,30 +33,33 @@ export function TimesheetPage({ date }: TimesheetPageProps) {
     );
   }
 
-  function handleReset() {
-    setEntries(createEmptyEntries(INITIAL_ROW_COUNT));
+  // Every blur saves the whole entry, also for empty rows; time fields are
+  // rounded first, so the rounded value is stored.
+  function handleBlur(entryIndex: number, field: TimesheetField) {
+    const entry = entries[entryIndex];
+    const nextEntry = roundEntryTime(entry, field);
+
+    if (nextEntry !== entry) {
+      setEntries((currentEntries) => currentEntries.map((current, index) => (index === entryIndex ? nextEntry : current)));
+    }
+
+    saveEntry(page.id, nextEntry).catch((error: unknown) => console.error(error));
   }
 
+  // New rows are saved right away, so they are still there after a reload.
   function handleAddRows() {
-    setEntries((currentEntries) => [...currentEntries, ...createEmptyEntries(ADDED_ROW_COUNT)]);
+    const newEntries = createEmptyEntries(ADDED_ROW_COUNT, getNextSorting(entries));
+
+    setEntries((currentEntries) => [...currentEntries, ...newEntries]);
+    Promise.all(newEntries.map((entry) => saveEntry(page.id, entry))).catch((error: unknown) => console.error(error));
   }
 
   return (
     <section className={styles["timesheet-page"]}>
-      <TimesheetHeader date={date}>
-        <AlertDialog>
-          <AlertDialog.Trigger>Reset</AlertDialog.Trigger>
-          <AlertDialog.Popup>
-            <AlertDialog.Title>Reset timesheet?</AlertDialog.Title>
-            <AlertDialog.Description>All entries of this day will be removed.</AlertDialog.Description>
-            <Button.Group>
-              <AlertDialog.Close>Cancel</AlertDialog.Close>
-              <AlertDialog.Close onClick={handleReset}>Reset</AlertDialog.Close>
-            </Button.Group>
-          </AlertDialog.Popup>
-        </AlertDialog>
+      <TimesheetHeader date={page.date}>
+        <Button onClick={onNew}>New</Button>
       </TimesheetHeader>
-      <TimesheetTable entries={entries} onChange={handleChange} />
+      <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} />
       <div>
         <Button onClick={handleAddRows}>Add rows</Button>
       </div>

@@ -37,10 +37,32 @@ ddev exec npm run db:migrate -- --name add-timesheet-entry
 
 **Hinweise:**
 
-- Legt unter `prisma/migrations/` eine SQL-Datei an, wendet sie auf
-  `prisma/dev.db` an und erzeugt den Client neu.
+- Legt unter `prisma/migrations/` eine SQL-Datei an und wendet sie auf
+  `prisma/dev.db` an.
+- Den Client erzeugt seit Prisma 7 nicht mehr `migrate dev` selbst, sondern der
+  npm-Hook `postdb:migrate` direkt danach. Nicht als `&&` ins Skript schreiben:
+  npm hängt `-- --name …` sonst an den letzten Befehl.
+- Danach den Dev-Server neu starten, siehe unten.
 - Migrationen werden committet, sie sind die Historie des Schemas.
 - Ohne `--name` fragt Prisma interaktiv nach einem Namen.
+
+## Dev-Server nach Schemaänderungen neu starten
+
+**Problem:** Nach `db:migrate` oder `db:generate` antworten API-Routen mit 500,
+im Log steht z. B. `Cannot read properties of undefined (reading 'findFirst')`.
+
+**Vorgehen:** Dev-Server mit `Strg+C` beenden und neu starten:
+
+```bash
+ddev exec npm run dev
+```
+
+**Hinweise:**
+
+- `src/lib/prisma.ts` legt die Client-Instanz in der Entwicklung auf
+  `globalThis`. Sie überlebt dadurch jedes Neuladen, auch das alte Schema ohne
+  neue Modelle. Erst ein neuer Prozess lädt den neuen Client.
+- Serverfehler des Dev-Servers stehen in `.next/dev/logs/next-development.log`.
 
 ## Client neu erzeugen
 
@@ -55,8 +77,28 @@ ddev exec npm run db:generate
 
 **Hinweise:**
 
-- `db:migrate` und `npm install` (über `postinstall`) erzeugen den Client
-  bereits mit, ein separater Aufruf ist selten nötig.
+- `db:migrate` (über `postdb:migrate`) und `npm install` (über `postinstall`)
+  erzeugen den Client bereits mit, ein separater Aufruf ist selten nötig.
+- Danach den Dev-Server neu starten.
+
+## Testdaten einspielen
+
+**Problem:** Die Datenbank soll Beispieldaten enthalten.
+
+**Vorgehen:**
+
+```bash
+ddev exec npm run db:seed
+```
+
+**Hinweise:**
+
+- Führt `prisma/seed.ts` mit `tsx` aus (eingetragen in `prisma.config.ts`).
+  Node selbst kann den erzeugten Client nicht laden, weil dessen Imports keine
+  Dateiendungen haben.
+- Der Seed leert vorher die Timesheet-Tabellen und kann beliebig oft laufen.
+- Seit Prisma 7 seedet `prisma migrate reset` nicht mehr automatisch, danach
+  `db:seed` selbst ausführen.
 
 ## Prisma im Code verwenden
 
@@ -94,6 +136,7 @@ ddev exec npx prisma migrate reset
 
 - Löscht alle Daten und spielt alle Migrationen neu ein, vorher kommt eine
   Rückfrage.
+- Testdaten danach mit `ddev exec npm run db:seed` einspielen.
 
 ## Datenbank ansehen
 

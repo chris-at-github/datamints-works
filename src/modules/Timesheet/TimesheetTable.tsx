@@ -6,9 +6,10 @@ import styles from "./TimesheetTable.module.css";
 export type TimesheetTableProps = {
   entries: TimesheetEntry[];
   onChange: (index: number, field: TimesheetField, value: string) => void;
+  onBlur: (index: number, field: TimesheetField) => void;
 };
 
-export function TimesheetTable({ entries, onChange }: TimesheetTableProps) {
+export function TimesheetTable({ entries, onChange, onBlur }: TimesheetTableProps) {
   const timeHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--time"]);
 
   return (
@@ -34,18 +35,18 @@ export function TimesheetTable({ entries, onChange }: TimesheetTableProps) {
             Booking text
           </th>
           <th scope="col" className={styles["timesheet-table__head"]}>
-            Internal note
+            Internal booking text
           </th>
         </tr>
       </thead>
       <tbody>
         {entries.map((entry, index) => (
-          // Rows are only appended or reset, never reordered, so the index is a stable key.
           <TimesheetRow
-            key={index}
+            key={entry.id}
             entry={entry}
             rowNumber={index + 1}
             onChange={(field, value) => onChange(index, field, value)}
+            onBlur={(field) => onBlur(index, field)}
           />
         ))}
       </tbody>

@@ -3,8 +3,8 @@ import { Button } from "@/components/Button";
 import styles from "./TimesheetHeader.module.css";
 
 export type TimesheetHeaderProps = {
-  // Null until the date is known in the browser.
-  date: string | null;
+  // Day of the page as "YYYY-MM-DD".
+  date: string;
   children?: ReactNode;
 };
 
