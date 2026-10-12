@@ -1,5 +1,5 @@
 import { readJsonObject } from "@/lib/request";
-import { saveEntry } from "@/lib/timesheet-repository";
+import { deleteEntry, saveEntry } from "@/lib/timesheet-repository";
 import { TIMESHEET_FIELDS, type TimesheetValues } from "@/modules/Timesheet/entries";
 
 // Creates or updates an entry. Values are not validated yet; only string fields
@@ -26,4 +26,11 @@ export async function PUT(request: Request, { params }: RouteContext<"/api/times
   });
 
   return entry ? Response.json({ entry }) : Response.json({ error: "Page not found" }, { status: 404 });
+}
+
+// Answers 204 also if the entry does not exist.
+export async function DELETE(_request: Request, { params }: RouteContext<"/api/timesheet-entries/[id]">) {
+  await deleteEntry((await params).id);
+
+  return new Response(null, { status: 204 });
 }

@@ -7,7 +7,7 @@ bewusst kurz gehalten und zum Nachschlagen gedacht, nicht zum Durchlesen.
 
 | Thema | Datei | Inhalt |
 | --- | --- | --- |
-| Git | [git.md](git.md) | Squash-Merge, Commit-Typen |
+| Git | [git.md](git.md) | Squash-Merge, Dev-Server nach dem Merge neu starten, Commit-Typen |
 | DDEV | [ddev.md](ddev.md) | Umgebung starten, Befehle im Container, Dev-Server hinter dem Router, Build |
 | CSS | [css.md](css.md) | Globale Styles, Cascade Layers, CSS-Module, Komponenten und Module, Base-UI-Vorbereitung, mitwachsende Textfelder |
 | Base UI | [base-ui.md](base-ui.md) | Eigene Komponenten um Base UI, Server-/Client-Komponenten, Zustände stylen |

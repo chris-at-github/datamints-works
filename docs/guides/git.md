@@ -32,6 +32,10 @@ geschrieben werden kann.
 - Mit dem Löschen des Branches verschwinden die Einzelcommits. Die
   Schritt-für-Schritt-Dokumentation steckt dann nur noch im archivierten
   Plandokument unter `docs/plans/archive/`.
+- Nach dem Merge den Dev-Server neu starten (`Strg+C`, dann
+  `ddev exec npm run dev`). `git checkout main` löscht die neuen Ordner des
+  Features kurz, der Merge legt sie wieder an. Der laufende Dev-Server bemerkt
+  das Neuanlegen nicht und antwortet auf die betroffenen Routen mit 404.
 
 ## Commit-Typen (Conventional Commits)
 

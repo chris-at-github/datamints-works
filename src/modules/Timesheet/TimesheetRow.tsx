@@ -1,6 +1,7 @@
 import { mergeClassName } from "@/lib/class-names";
 import { maskTime } from "@/lib/time";
-import type { TimesheetEntry, TimesheetField } from "./entries";
+import { isEntryEmpty, type TimesheetEntry, type TimesheetField } from "./entries";
+import { TimesheetRowActions } from "./TimesheetRowActions";
 import styles from "./TimesheetRow.module.css";
 
 export type TimesheetRowProps = {
@@ -9,9 +10,10 @@ export type TimesheetRowProps = {
   onChange: (field: TimesheetField, value: string) => void;
   // Called when a field is left; the page rounds time fields and saves the entry.
   onBlur: (field: TimesheetField) => void;
+  onDelete: () => void;
 };
 
-export function TimesheetRow({ entry, rowNumber, onChange, onBlur }: TimesheetRowProps) {
+export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: TimesheetRowProps) {
   // The mask keeps time fields in "HH:MM" while typing.
   function handleTimeChange(field: TimesheetField, value: string) {
     onChange(field, maskTime(value));
@@ -83,6 +85,9 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur }: TimesheetRo
           onBlur={() => onBlur("bookingTextInternal")}
           aria-label={`Internal booking text, row ${rowNumber}`}
         />
+      </td>
+      <td className={mergeClassName(styles["timesheet-row__cell"], styles["timesheet-row__cell--actions"])}>
+        <TimesheetRowActions rowNumber={rowNumber} isEmpty={isEntryEmpty(entry)} onDelete={onDelete} />
       </td>
     </tr>
   );

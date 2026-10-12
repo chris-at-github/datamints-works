@@ -59,6 +59,11 @@ export function getNextSorting(entries: TimesheetEntry[]): number {
   return entries.reduce((max, entry) => Math.max(max, entry.sorting + 1), 0);
 }
 
+// A duration of "00:00" remains after clearing start or end time, so it counts as empty.
+export function isEntryEmpty(entry: TimesheetEntry): boolean {
+  return TIMESHEET_FIELDS.every((field) => entry[field] === "" || (field === "duration" && entry[field] === "00:00"));
+}
+
 // Start and end time drive the duration; an edited duration moves the end time.
 export function updateEntry(entry: TimesheetEntry, field: TimesheetField, value: string): TimesheetEntry {
   const nextEntry = { ...entry, [field]: value };

@@ -5,6 +5,10 @@
   vertical-align: top;
 }
 
+.timesheet-row__cell--actions {
+  padding: var(--spacing-20);
+}
+
 .timesheet-row__field {
   display: block;
   width: 100%;

@@ -23,3 +23,8 @@
 .timesheet-table__head--ticket {
   width: 160px;
 }
+
+/* One icon button (41px) plus the cell padding. */
+.timesheet-table__head--actions {
+  width: 52px;
+}

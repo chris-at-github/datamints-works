@@ -7,9 +7,10 @@ export type TimesheetTableProps = {
   entries: TimesheetEntry[];
   onChange: (index: number, field: TimesheetField, value: string) => void;
   onBlur: (index: number, field: TimesheetField) => void;
+  onDelete: (index: number) => void;
 };
 
-export function TimesheetTable({ entries, onChange, onBlur }: TimesheetTableProps) {
+export function TimesheetTable({ entries, onChange, onBlur, onDelete }: TimesheetTableProps) {
   const timeHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--time"]);
 
   return (
@@ -37,6 +38,11 @@ export function TimesheetTable({ entries, onChange, onBlur }: TimesheetTableProp
           <th scope="col" className={styles["timesheet-table__head"]}>
             Internal booking text
           </th>
+          {/* Row actions; intentionally without a heading. */}
+          <th
+            scope="col"
+            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--actions"])}
+          />
         </tr>
       </thead>
       <tbody>
@@ -47,6 +53,7 @@ export function TimesheetTable({ entries, onChange, onBlur }: TimesheetTableProp
             rowNumber={index + 1}
             onChange={(field, value) => onChange(index, field, value)}
             onBlur={(field) => onBlur(index, field)}
+            onDelete={() => onDelete(index)}
           />
         ))}
       </tbody>

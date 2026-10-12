@@ -53,3 +53,8 @@ export async function saveEntry(id: string, { pageId, sorting, values }: EntryIn
     omit: { pageId: true },
   });
 }
+
+// Deleting a missing entry is not an error, so repeated deletes are harmless.
+export async function deleteEntry(id: string): Promise<void> {
+  await prisma.timesheetEntry.deleteMany({ where: { id } });
+}

@@ -33,6 +33,15 @@ export async function saveEntry(pageId: string, entry: TimesheetEntry): Promise<
   await put(`/api/timesheet-entries/${encodeURIComponent(entry.id)}`, { pageId, ...entry });
 }
 
+export async function deleteEntry(id: string): Promise<void> {
+  const url = `/api/timesheet-entries/${encodeURIComponent(id)}`;
+  const response = await fetch(url, { method: "DELETE" });
+
+  if (!response.ok) {
+    throw new Error(`DELETE ${url} failed with status ${response.status}`);
+  }
+}
+
 // Creates a page for today with empty rows; the rows are saved as well, so they
 // are there after a reload.
 export async function createPage(): Promise<TimesheetPageData> {

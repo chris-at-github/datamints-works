@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/Button";
-import { saveEntry } from "./api";
+import { deleteEntry, saveEntry } from "./api";
 import {
   createEmptyEntries,
   getNextSorting,
@@ -46,6 +46,14 @@ export function TimesheetPage({ page, onNew }: TimesheetPageProps) {
     saveEntry(page.id, nextEntry).catch((error: unknown) => console.error(error));
   }
 
+  // The row disappears at once, the request runs in the background.
+  function handleDelete(entryIndex: number) {
+    const entry = entries[entryIndex];
+
+    setEntries((currentEntries) => currentEntries.filter((current) => current.id !== entry.id));
+    deleteEntry(entry.id).catch((error: unknown) => console.error(error));
+  }
+
   // New rows are saved right away, so they are still there after a reload.
   function handleAddRows() {
     const newEntries = createEmptyEntries(ADDED_ROW_COUNT, getNextSorting(entries));
@@ -59,7 +67,7 @@ export function TimesheetPage({ page, onNew }: TimesheetPageProps) {
       <TimesheetHeader date={page.date}>
         <Button onClick={onNew}>New</Button>
       </TimesheetHeader>
-      <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} />
+      <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} onDelete={handleDelete} />
       <div>
         <Button onClick={handleAddRows}>Add rows</Button>
       </div>
