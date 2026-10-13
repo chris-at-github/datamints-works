@@ -97,5 +97,6 @@ Alle Befehle laufen im Container. Die Anwendung liegt im Projekt-Root, daher sin
 - Führe **kein** Push durch.
 - Schreibe die Branch-History nicht um (kein Rebase, kein Squash auf dem Feature-Branch) — die Einzelcommits sind der Arbeitsnachweis.
 - Merge **nicht** automatisch nach `main` — führe den Merge nur auf Anfrage, per Squash (`git merge --squash`) durch, sodass pro Feature ein Commit auf `main` landet.
+- Lösche den Feature-Branch direkt nach dem Squash-Merge (`git branch -D`), nachdem geprüft ist, dass er inhaltlich `main` entspricht (`git diff --quiet main <branch>`).
 - Schlage die Commit-Message am für den Commit in `main` vor und frage mich dazu
 - Halte die Commit-Message knapp => erkläre nur den Sinn hinter dem Commit. Füge in der Beschreibung keine Zeilenumbrüche hinzu.
