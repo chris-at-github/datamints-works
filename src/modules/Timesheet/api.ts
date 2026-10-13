@@ -1,5 +1,10 @@
 import { formatDate } from "@/lib/date";
-import { createEmptyEntries, type TimesheetEntry, type TimesheetPageData } from "./entries";
+import {
+  createEmptyEntries,
+  type TimesheetEntry,
+  type TimesheetPageData,
+  type TimesheetPageResult,
+} from "./entries";
 
 const NEW_PAGE_ROW_COUNT = 5;
 
@@ -21,12 +26,12 @@ function put<T>(url: string, body: unknown): Promise<T> {
   });
 }
 
-// Without an id the latest page is loaded; it is null if there is none yet.
-export async function fetchPage(pageId?: string): Promise<TimesheetPageData | null> {
+// Without an id the latest page is loaded; the result is null if there is none yet.
+export async function fetchPage(pageId?: string): Promise<TimesheetPageResult | null> {
   const url = pageId ? `/api/timesheet-pages/${encodeURIComponent(pageId)}` : "/api/timesheet-pages/latest";
-  const { page } = await request<{ page: TimesheetPageData | null }>(url);
+  const result = await request<TimesheetPageResult | { page: null; neighbors: null }>(url);
 
-  return page;
+  return result.page ? result : null;
 }
 
 export async function saveEntry(pageId: string, entry: TimesheetEntry): Promise<void> {

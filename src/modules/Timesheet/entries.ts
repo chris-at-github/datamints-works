@@ -36,6 +36,17 @@ export type TimesheetPageData = {
   entries: TimesheetEntry[];
 };
 
+// Ids of the pages before and after a page; null at the edges.
+export type TimesheetNeighbors = {
+  newerId: string | null;
+  olderId: string | null;
+};
+
+export type TimesheetPageResult = {
+  page: TimesheetPageData;
+  neighbors: TimesheetNeighbors;
+};
+
 const EMPTY_VALUES: TimesheetValues = {
   startTime: "",
   endTime: "",

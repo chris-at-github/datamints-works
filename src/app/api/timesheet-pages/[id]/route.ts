@@ -2,9 +2,9 @@ import { readJsonObject } from "@/lib/request";
 import { findPage, savePage } from "@/lib/timesheet-repository";
 
 export async function GET(_request: Request, { params }: RouteContext<"/api/timesheet-pages/[id]">) {
-  const page = await findPage((await params).id);
+  const result = await findPage((await params).id);
 
-  return page ? Response.json({ page }) : Response.json({ error: "Page not found" }, { status: 404 });
+  return result ? Response.json(result) : Response.json({ error: "Page not found" }, { status: 404 });
 }
 
 // Creates or updates a page; the id comes from the browser.

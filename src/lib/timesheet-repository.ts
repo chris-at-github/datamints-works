@@ -1,10 +1,18 @@
 import { prisma } from "@/lib/prisma";
-import type { TimesheetEntry, TimesheetPageData, TimesheetValues } from "@/modules/Timesheet/entries";
+import type {
+  TimesheetEntry,
+  TimesheetNeighbors,
+  TimesheetPageData,
+  TimesheetPageResult,
+  TimesheetValues,
+} from "@/modules/Timesheet/entries";
 
 // Shapes database rows like the API response: entries in row order, without pageId.
+// createdAt is only needed to find the neighbours and is removed afterwards.
 const PAGE_SELECT = {
   id: true,
   date: true,
+  createdAt: true,
   entries: {
     orderBy: { sorting: "asc" },
     omit: { pageId: true },
@@ -12,15 +20,41 @@ const PAGE_SELECT = {
 } as const;
 
 // Highest date wins; pages on the same day are told apart by creation time.
-export function findLatestPage(): Promise<TimesheetPageData | null> {
-  return prisma.timesheetPage.findFirst({
+export async function findLatestPage(): Promise<TimesheetPageResult | null> {
+  const page = await prisma.timesheetPage.findFirst({
     orderBy: [{ date: "desc" }, { createdAt: "desc" }],
     select: PAGE_SELECT,
   });
+
+  return page && withNeighbors(page);
 }
 
-export function findPage(id: string): Promise<TimesheetPageData | null> {
-  return prisma.timesheetPage.findUnique({ where: { id }, select: PAGE_SELECT });
+export async function findPage(id: string): Promise<TimesheetPageResult | null> {
+  const page = await prisma.timesheetPage.findUnique({ where: { id }, select: PAGE_SELECT });
+
+  return page && withNeighbors(page);
+}
+
+async function withNeighbors({ createdAt, ...page }: TimesheetPageData & { createdAt: Date }): Promise<TimesheetPageResult> {
+  return { page, neighbors: await findNeighbors(page.date, createdAt) };
+}
+
+// Same order as findLatestPage: by date, then by creation time.
+async function findNeighbors(date: string, createdAt: Date): Promise<TimesheetNeighbors> {
+  const [newer, older] = await Promise.all([
+    prisma.timesheetPage.findFirst({
+      where: { OR: [{ date: { gt: date } }, { date, createdAt: { gt: createdAt } }] },
+      orderBy: [{ date: "asc" }, { createdAt: "asc" }],
+      select: { id: true },
+    }),
+    prisma.timesheetPage.findFirst({
+      where: { OR: [{ date: { lt: date } }, { date, createdAt: { lt: createdAt } }] },
+      orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+      select: { id: true },
+    }),
+  ]);
+
+  return { newerId: newer?.id ?? null, olderId: older?.id ?? null };
 }
 
 export function savePage(id: string, date: string): Promise<Omit<TimesheetPageData, "entries">> {

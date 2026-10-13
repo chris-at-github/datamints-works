@@ -3,17 +3,20 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createPage, fetchPage } from "./api";
-import type { TimesheetPageData } from "./entries";
+import type { TimesheetNeighbors, TimesheetPageResult } from "./entries";
 import { TimesheetPage } from "./TimesheetPage";
 
-type LoadState = { status: "loading" } | { status: "error" } | { status: "ready"; page: TimesheetPageData };
+type LoadState = { status: "loading" } | { status: "error" } | ({ status: "ready" } & TimesheetPageResult);
+
+// A page created because there was none has no neighbours.
+const NO_NEIGHBORS: TimesheetNeighbors = { newerId: null, olderId: null };
 
 export type TimesheetProps = {
   // Without an id the latest page is shown.
   pageId?: string;
 };
 
-// Loads a day page in the background and renders it; browsing will be added here.
+// Loads a day page in the background and renders it.
 // If there is no page at all, one is created for today.
 export function Timesheet({ pageId }: TimesheetProps) {
   const router = useRouter();
@@ -25,13 +28,13 @@ export function Timesheet({ pageId }: TimesheetProps) {
     let ignore = false;
 
     async function load() {
-      const page = await fetchPage(pageId);
+      const result = await fetchPage(pageId);
 
       if (ignore) {
         return;
       }
 
-      setState({ status: "ready", page: page ?? (await createPage()) });
+      setState({ status: "ready", ...(result ?? { page: await createPage(), neighbors: NO_NEIGHBORS }) });
     }
 
     load().catch((error: unknown) => {
@@ -58,6 +61,11 @@ export function Timesheet({ pageId }: TimesheetProps) {
     }
   }
 
+  // Like "New", every page gets a history entry, so the browser's back button pages back.
+  function handleNavigate(targetPageId: string) {
+    router.push(`/timesheet/${targetPageId}`);
+  }
+
   if (state.status === "loading") {
     return <p>Loading…</p>;
   }
@@ -66,5 +74,13 @@ export function Timesheet({ pageId }: TimesheetProps) {
     return <p>The timesheet could not be loaded.</p>;
   }
 
-  return <TimesheetPage key={state.page.id} page={state.page} onNew={handleNew} />;
+  return (
+    <TimesheetPage
+      key={state.page.id}
+      page={state.page}
+      neighbors={state.neighbors}
+      onNew={handleNew}
+      onNavigate={handleNavigate}
+    />
+  );
 }

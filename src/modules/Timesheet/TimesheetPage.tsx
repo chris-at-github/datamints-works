@@ -8,10 +8,12 @@ import {
   getNextSorting,
   roundEntryTime,
   type TimesheetField,
+  type TimesheetNeighbors,
   type TimesheetPageData,
   updateEntry,
 } from "./entries";
 import { TimesheetHeader } from "./TimesheetHeader";
+import { TimesheetPagination } from "./TimesheetPagination";
 import { TimesheetTable } from "./TimesheetTable";
 import styles from "./TimesheetPage.module.css";
 
@@ -19,12 +21,14 @@ const ADDED_ROW_COUNT = 5;
 
 export type TimesheetPageProps = {
   page: TimesheetPageData;
+  neighbors: TimesheetNeighbors;
   onNew: () => void;
+  onNavigate: (pageId: string) => void;
 };
 
 // One page holds the entries of exactly one day; the loaded entries are the
 // starting state, changes are kept here.
-export function TimesheetPage({ page, onNew }: TimesheetPageProps) {
+export function TimesheetPage({ page, neighbors, onNew, onNavigate }: TimesheetPageProps) {
   const [entries, setEntries] = useState(page.entries);
 
   function handleChange(entryIndex: number, field: TimesheetField, value: string) {
@@ -62,9 +66,11 @@ export function TimesheetPage({ page, onNew }: TimesheetPageProps) {
     Promise.all(newEntries.map((entry) => saveEntry(page.id, entry))).catch((error: unknown) => console.error(error));
   }
 
+  const pagination = <TimesheetPagination neighbors={neighbors} onNavigate={onNavigate} />;
+
   return (
     <section className={styles["timesheet-page"]}>
-      <TimesheetHeader date={page.date}>
+      <TimesheetHeader date={page.date} pagination={pagination}>
         <Button onClick={onNew}>New</Button>
       </TimesheetHeader>
       <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} onDelete={handleDelete} />
