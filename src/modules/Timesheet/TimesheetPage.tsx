@@ -22,13 +22,15 @@ const ADDED_ROW_COUNT = 5;
 export type TimesheetPageProps = {
   page: TimesheetPageData;
   neighbors: TimesheetNeighbors;
+  // "New" is disabled then, so there is at most one page per day.
+  hasTodayPage: boolean;
   onNew: () => void;
   onNavigate: (pageId: string) => void;
 };
 
 // One page holds the entries of exactly one day; the loaded entries are the
 // starting state, changes are kept here.
-export function TimesheetPage({ page, neighbors, onNew, onNavigate }: TimesheetPageProps) {
+export function TimesheetPage({ page, neighbors, hasTodayPage, onNew, onNavigate }: TimesheetPageProps) {
   const [entries, setEntries] = useState(page.entries);
 
   function handleChange(entryIndex: number, field: TimesheetField, value: string) {
@@ -71,7 +73,9 @@ export function TimesheetPage({ page, neighbors, onNew, onNavigate }: TimesheetP
   return (
     <section className={styles["timesheet-page"]}>
       <TimesheetHeader date={page.date} pagination={pagination}>
-        <Button onClick={onNew}>New</Button>
+        <Button disabled={hasTodayPage} onClick={onNew}>
+          New
+        </Button>
       </TimesheetHeader>
       <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} onDelete={handleDelete} />
       <div>

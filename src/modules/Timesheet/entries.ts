@@ -45,6 +45,8 @@ export type TimesheetNeighbors = {
 export type TimesheetPageResult = {
   page: TimesheetPageData;
   neighbors: TimesheetNeighbors;
+  // Date of the latest page, to tell whether a page for today exists.
+  latestDate: string;
 };
 
 const EMPTY_VALUES: TimesheetValues = {

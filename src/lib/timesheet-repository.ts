@@ -1,3 +1,4 @@
+import type { Prisma } from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import type {
   TimesheetEntry,
@@ -6,6 +7,9 @@ import type {
   TimesheetPageResult,
   TimesheetValues,
 } from "@/modules/Timesheet/entries";
+
+// Highest date first; pages on the same day are told apart by creation time.
+const LATEST_FIRST: Prisma.TimesheetPageOrderByWithRelationInput[] = [{ date: "desc" }, { createdAt: "desc" }];
 
 // Shapes database rows like the API response: entries in row order, without pageId.
 // createdAt is only needed to find the neighbours and is removed afterwards.
@@ -19,27 +23,33 @@ const PAGE_SELECT = {
   },
 } as const;
 
-// Highest date wins; pages on the same day are told apart by creation time.
 export async function findLatestPage(): Promise<TimesheetPageResult | null> {
-  const page = await prisma.timesheetPage.findFirst({
-    orderBy: [{ date: "desc" }, { createdAt: "desc" }],
-    select: PAGE_SELECT,
-  });
+  const page = await prisma.timesheetPage.findFirst({ orderBy: LATEST_FIRST, select: PAGE_SELECT });
 
-  return page && withNeighbors(page);
+  return page && withNavigation(page);
 }
 
 export async function findPage(id: string): Promise<TimesheetPageResult | null> {
   const page = await prisma.timesheetPage.findUnique({ where: { id }, select: PAGE_SELECT });
 
-  return page && withNeighbors(page);
+  return page && withNavigation(page);
 }
 
-async function withNeighbors({ createdAt, ...page }: TimesheetPageData & { createdAt: Date }): Promise<TimesheetPageResult> {
-  return { page, neighbors: await findNeighbors(page.date, createdAt) };
+// Adds what the header needs besides the page: the neighbours and the latest date.
+async function withNavigation({
+  createdAt,
+  ...page
+}: TimesheetPageData & { createdAt: Date }): Promise<TimesheetPageResult> {
+  const [neighbors, latest] = await Promise.all([
+    findNeighbors(page.date, createdAt),
+    prisma.timesheetPage.findFirst({ orderBy: LATEST_FIRST, select: { date: true } }),
+  ]);
+
+  // The page itself exists, so there is always a latest page.
+  return { page, neighbors, latestDate: latest?.date ?? page.date };
 }
 
-// Same order as findLatestPage: by date, then by creation time.
+// Same order as LATEST_FIRST: by date, then by creation time.
 async function findNeighbors(date: string, createdAt: Date): Promise<TimesheetNeighbors> {
   const [newer, older] = await Promise.all([
     prisma.timesheetPage.findFirst({

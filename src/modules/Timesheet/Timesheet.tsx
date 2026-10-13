@@ -2,14 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { formatDate } from "@/lib/date";
 import { createPage, fetchPage } from "./api";
-import type { TimesheetNeighbors, TimesheetPageResult } from "./entries";
+import type { TimesheetPageResult } from "./entries";
 import { TimesheetPage } from "./TimesheetPage";
 
 type LoadState = { status: "loading" } | { status: "error" } | ({ status: "ready" } & TimesheetPageResult);
 
-// A page created because there was none has no neighbours.
-const NO_NEIGHBORS: TimesheetNeighbors = { newerId: null, olderId: null };
+// A page created because there was none has no neighbours and is the latest page.
+async function createFirstPage(): Promise<TimesheetPageResult> {
+  const page = await createPage();
+
+  return { page, neighbors: { newerId: null, olderId: null }, latestDate: page.date };
+}
 
 export type TimesheetProps = {
   // Without an id the latest page is shown.
@@ -34,7 +39,7 @@ export function Timesheet({ pageId }: TimesheetProps) {
         return;
       }
 
-      setState({ status: "ready", ...(result ?? { page: await createPage(), neighbors: NO_NEIGHBORS }) });
+      setState({ status: "ready", ...(result ?? (await createFirstPage())) });
     }
 
     load().catch((error: unknown) => {
@@ -79,6 +84,8 @@ export function Timesheet({ pageId }: TimesheetProps) {
       key={state.page.id}
       page={state.page}
       neighbors={state.neighbors}
+      // Pages are only created for today, so the latest date tells whether today's page exists.
+      hasTodayPage={state.latestDate === formatDate(new Date())}
       onNew={handleNew}
       onNavigate={handleNavigate}
     />
