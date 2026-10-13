@@ -35,6 +35,10 @@ export async function findPage(id: string): Promise<TimesheetPageResult | null> 
   return page && withNavigation(page);
 }
 
+export async function pageExists(id: string): Promise<boolean> {
+  return (await prisma.timesheetPage.count({ where: { id } })) > 0;
+}
+
 // Adds what the header needs besides the page: the neighbours and the latest date.
 async function withNavigation({
   createdAt,
