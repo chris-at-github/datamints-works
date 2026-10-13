@@ -1,8 +1,9 @@
-/* Spreadsheet-like grid; the cells are styled in TimesheetRow.module.css. */
+/* Spreadsheet-like grid; the cells are styled in TimesheetRow.module.css.
+   The automatic layout lets narrow columns shrink to their content. */
 .timesheet-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  font-size: var(--font-size-small);
 }
 
 .timesheet-table__head {
@@ -10,21 +11,17 @@
   border: 1px solid var(--color-ruler);
   background: var(--color-neutral-10);
   color: var(--font-color-important);
-  font-size: var(--font-size-small);
   font-weight: var(--font-weight-medium);
   text-align: start;
 }
 
-/* Time and duration columns only need room for "HH:MM" plus the browser picker. */
-.timesheet-table__head--time {
-  width: 140px;
+/* Shrinks the column to the wider of heading and content. */
+.timesheet-table__head--narrow {
+  width: 1%;
+  white-space: nowrap;
 }
 
-.timesheet-table__head--ticket {
-  width: 160px;
-}
-
-/* One icon button (41px) plus the cell padding. */
-.timesheet-table__head--actions {
-  width: 52px;
+/* The booking text is more relevant and longer than the internal one, which takes the rest. */
+.timesheet-table__head--booking-text {
+  width: 50%;
 }

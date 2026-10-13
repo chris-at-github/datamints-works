@@ -10,22 +10,22 @@ const SAMPLE_PAGES: { date: string; entries: SampleEntry[] }[] = [
   {
     date: "2026-10-08",
     entries: [
-      ["08:00", "09:30", "WORKS-12", "Set up project", ""],
-      ["09:30", "12:00", "WORKS-14", "Build timesheet table", "Pairing with the team"],
-      ["13:00", "16:15", "WORKS-15", "Add duration calculation", ""],
+      ["08:00", "09:30", "4012", "Set up project", ""],
+      ["09:30", "12:00", "4014", "Build timesheet table", "Pairing with the team"],
+      ["13:00", "16:15", "10215", "Add duration calculation", ""],
     ],
   },
   {
     date: "2026-10-09",
     entries: [
       ["08:00", "08:15", "", "Daily stand-up", ""],
-      ["08:15", "10:00", "WORKS-21", "Split timesheet module", ""],
-      ["10:00", "10:30", "WORKS-22", "Review", "Waiting for feedback"],
-      ["10:30", "12:00", "WORKS-23", "Reset dialog", ""],
-      ["13:00", "14:00", "WORKS-24", "Add rows button", ""],
-      ["14:00", "15:30", "WORKS-25", "Time input mask", "Cursor jumps to the end"],
+      ["08:15", "10:00", "4021", "Split timesheet module", ""],
+      ["10:00", "10:30", "10022", "Review", "Waiting for feedback"],
+      ["10:30", "12:00", "4023", "Reset dialog", ""],
+      ["13:00", "14:00", "4024", "Add rows button", ""],
+      ["14:00", "15:30", "10125", "Time input mask", "Cursor jumps to the end"],
       ["15:30", "16:00", "", "Team meeting", ""],
-      ["16:00", "17:00", "WORKS-26", "Documentation", ""],
+      ["16:00", "17:00", "4026", "Documentation", ""],
     ],
   },
 ];

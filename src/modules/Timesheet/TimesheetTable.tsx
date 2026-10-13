@@ -11,38 +11,35 @@ export type TimesheetTableProps = {
 };
 
 export function TimesheetTable({ entries, onChange, onBlur, onDelete }: TimesheetTableProps) {
-  const timeHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--time"]);
+  const narrowHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--narrow"]);
 
   return (
     <table className={styles["timesheet-table"]}>
       <thead>
         <tr>
-          <th scope="col" className={timeHeadClassName}>
-            Start time
+          <th scope="col" className={narrowHeadClassName}>
+            Start
           </th>
-          <th scope="col" className={timeHeadClassName}>
-            End time
+          <th scope="col" className={narrowHeadClassName}>
+            End
           </th>
-          <th scope="col" className={timeHeadClassName}>
+          <th scope="col" className={narrowHeadClassName}>
             Duration
+          </th>
+          <th scope="col" className={narrowHeadClassName}>
+            Ticket
           </th>
           <th
             scope="col"
-            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--ticket"])}
+            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--booking-text"])}
           >
-            Ticket
-          </th>
-          <th scope="col" className={styles["timesheet-table__head"]}>
             Booking text
           </th>
           <th scope="col" className={styles["timesheet-table__head"]}>
             Internal booking text
           </th>
           {/* Row actions; intentionally without a heading. */}
-          <th
-            scope="col"
-            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--actions"])}
-          />
+          <th scope="col" className={narrowHeadClassName} />
         </tr>
       </thead>
       <tbody>

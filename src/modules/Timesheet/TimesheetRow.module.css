@@ -5,6 +5,12 @@
   vertical-align: top;
 }
 
+/* Plain text with the same padding as the fields, so the rows keep their height. */
+.timesheet-row__cell--text {
+  padding: var(--spacing-30);
+  white-space: nowrap;
+}
+
 .timesheet-row__cell--actions {
   padding: var(--spacing-20);
 }
@@ -23,6 +29,11 @@
     outline: 2px solid var(--color-outline);
     outline-offset: -2px;
   }
+}
+
+/* Room for "HH:MM" and five-digit tickets; ch is the width of the digit "0". */
+.timesheet-row__field--short {
+  min-width: calc(5ch + 2 * var(--spacing-30));
 }
 
 /* Grows with its content where supported; elsewhere it keeps the height of one row. */

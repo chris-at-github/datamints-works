@@ -19,13 +19,14 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: T
     onChange(field, maskTime(value));
   }
 
+  const shortClassName = mergeClassName(styles["timesheet-row__field"], styles["timesheet-row__field--short"]);
   const multilineClassName = mergeClassName(styles["timesheet-row__field"], styles["timesheet-row__field--multiline"]);
 
   return (
     <tr>
       <td className={styles["timesheet-row__cell"]}>
         <input
-          className={styles["timesheet-row__field"]}
+          className={shortClassName}
           type="text"
           placeholder="HH:MM"
           value={entry.startTime}
@@ -36,7 +37,7 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: T
       </td>
       <td className={styles["timesheet-row__cell"]}>
         <input
-          className={styles["timesheet-row__field"]}
+          className={shortClassName}
           type="text"
           placeholder="HH:MM"
           value={entry.endTime}
@@ -45,20 +46,13 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: T
           aria-label={`End time, row ${rowNumber}`}
         />
       </td>
-      <td className={styles["timesheet-row__cell"]}>
-        <input
-          className={styles["timesheet-row__field"]}
-          type="text"
-          placeholder="HH:MM"
-          value={entry.duration}
-          onChange={(event) => handleTimeChange("duration", event.target.value)}
-          onBlur={() => onBlur("duration")}
-          aria-label={`Duration, row ${rowNumber}`}
-        />
+      {/* Computed from start and end time; not editable in the table for now. */}
+      <td className={mergeClassName(styles["timesheet-row__cell"], styles["timesheet-row__cell--text"])}>
+        {entry.duration}
       </td>
       <td className={styles["timesheet-row__cell"]}>
         <input
-          className={styles["timesheet-row__field"]}
+          className={shortClassName}
           type="text"
           value={entry.ticket}
           onChange={(event) => onChange("ticket", event.target.value)}
