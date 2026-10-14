@@ -20,8 +20,3 @@
   width: 1%;
   white-space: nowrap;
 }
-
-/* The booking text is more relevant and longer than the internal one, which takes the rest. */
-.timesheet-table__head--booking-text {
-  width: 50%;
-}

@@ -1,0 +1,24 @@
+/* Title on the left, close button on the right. */
+.timesheet-internal-note__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-30);
+}
+
+/* Starts with three lines and grows with its content where supported. */
+.timesheet-internal-note__field {
+  display: block;
+  width: 100%;
+  min-height: calc(3lh + 2 * var(--spacing-30) + 2px);
+  padding: var(--spacing-30);
+  border: 1px solid var(--color-ruler);
+  border-radius: var(--border-radius-small);
+  field-sizing: content;
+  resize: none;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-outline);
+    outline-offset: -2px;
+  }
+}

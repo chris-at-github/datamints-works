@@ -29,14 +29,8 @@ export function TimesheetTable({ entries, onChange, onBlur, onDelete }: Timeshee
           <th scope="col" className={narrowHeadClassName}>
             Ticket
           </th>
-          <th
-            scope="col"
-            className={mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--booking-text"])}
-          >
-            Booking text
-          </th>
           <th scope="col" className={styles["timesheet-table__head"]}>
-            Internal booking text
+            Booking text
           </th>
           {/* Row actions; intentionally without a heading. */}
           <th scope="col" className={narrowHeadClassName} />

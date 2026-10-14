@@ -70,18 +70,16 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: T
           aria-label={`Booking text, row ${rowNumber}`}
         />
       </td>
-      <td className={styles["timesheet-row__cell"]}>
-        <textarea
-          className={multilineClassName}
-          rows={1}
-          value={entry.bookingTextInternal}
-          onChange={(event) => onChange("bookingTextInternal", event.target.value)}
-          onBlur={() => onBlur("bookingTextInternal")}
-          aria-label={`Internal booking text, row ${rowNumber}`}
-        />
-      </td>
       <td className={mergeClassName(styles["timesheet-row__cell"], styles["timesheet-row__cell--actions"])}>
-        <TimesheetRowActions rowNumber={rowNumber} isEmpty={isEntryEmpty(entry)} onDelete={onDelete} />
+        <TimesheetRowActions
+          rowNumber={rowNumber}
+          isEmpty={isEntryEmpty(entry)}
+          internalBookingText={entry.bookingTextInternal}
+          onInternalBookingTextChange={(value) => onChange("bookingTextInternal", value)}
+          onInternalBookingTextClose={() => onBlur("bookingTextInternal")}
+          onDelete={onDelete}
+          className={styles["timesheet-row__actions"]}
+        />
       </td>
     </tr>
   );

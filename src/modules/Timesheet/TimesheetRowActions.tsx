@@ -1,20 +1,39 @@
 import { Trash2Icon } from "lucide-react";
 import { AlertDialog } from "@/components/AlertDialog";
 import { Button } from "@/components/Button";
+import { TimesheetInternalNote } from "./TimesheetInternalNote";
 
 export type TimesheetRowActionsProps = {
   rowNumber: number;
   // Empty rows are deleted right away, rows with data only after confirmation.
   isEmpty: boolean;
+  internalBookingText: string;
+  onInternalBookingTextChange: (value: string) => void;
+  onInternalBookingTextClose: () => void;
   onDelete: () => void;
+  className?: string;
 };
 
-// Actions for one row; more buttons will join the group later.
-export function TimesheetRowActions({ rowNumber, isEmpty, onDelete }: TimesheetRowActionsProps) {
+// Actions for one row; the delete button stays on the outside.
+export function TimesheetRowActions({
+  rowNumber,
+  isEmpty,
+  internalBookingText,
+  onInternalBookingTextChange,
+  onInternalBookingTextClose,
+  onDelete,
+  className,
+}: TimesheetRowActionsProps) {
   const deleteLabel = `Delete row ${rowNumber}`;
 
   return (
-    <Button.Group>
+    <Button.Group className={className}>
+      <TimesheetInternalNote
+        rowNumber={rowNumber}
+        value={internalBookingText}
+        onChange={onInternalBookingTextChange}
+        onClose={onInternalBookingTextClose}
+      />
       {isEmpty ? (
         <Button.Icon icon={Trash2Icon} aria-label={deleteLabel} onClick={onDelete} />
       ) : (

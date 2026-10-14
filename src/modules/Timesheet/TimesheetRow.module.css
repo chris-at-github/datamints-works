@@ -15,6 +15,11 @@
   padding: var(--spacing-20);
 }
 
+/* The actions column shrinks to its content, so the buttons must stay on one line. */
+.timesheet-row__actions {
+  flex-wrap: nowrap;
+}
+
 .timesheet-row__field {
   display: block;
   width: 100%;
