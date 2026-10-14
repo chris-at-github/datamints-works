@@ -1,6 +1,9 @@
-.ruler {
-  display: block;
-  margin: 0;
-  border: 0;
-  border-top: 1px solid var(--color-ruler);
+/* Component styles lose against unlayered module CSS, see docs/guides/css.md. */
+@layer components {
+  .ruler {
+    display: block;
+    margin: 0;
+    border: 0;
+    border-top: 1px solid var(--color-ruler);
+  }
 }

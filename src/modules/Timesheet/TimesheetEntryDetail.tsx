@@ -1,0 +1,114 @@
+"use client";
+
+import { XIcon } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/Button";
+import { Field } from "@/components/Field";
+import { maskTime } from "@/lib/time";
+import { saveEntry } from "./api";
+import { roundEntryTime, type TimesheetEntry, type TimesheetField, updateEntry } from "./entries";
+import styles from "./TimesheetEntryDetail.module.css";
+import { usePendingSaves } from "./usePendingSaves";
+
+export type TimesheetEntryDetailProps = {
+  pageId: string;
+  entry: TimesheetEntry;
+  // Date of the page as "YYYY-MM-DD".
+  date: string;
+  rowNumber: number;
+};
+
+// Edits one entry; like in the table, every field is saved when it is left.
+export function TimesheetEntryDetail({ pageId, entry: initialEntry, date, rowNumber }: TimesheetEntryDetailProps) {
+  const [entry, setEntry] = useState(initialEntry);
+  const { trackSave, navigateAfterSaves } = usePendingSaves();
+  const tableUrl = `/timesheet/${pageId}`;
+
+  function handleChange(field: TimesheetField, value: string) {
+    setEntry((currentEntry) => updateEntry(currentEntry, field, value));
+  }
+
+  // The mask keeps time fields in "HH:MM" while typing.
+  function handleTimeChange(field: TimesheetField, value: string) {
+    handleChange(field, maskTime(value));
+  }
+
+  // Time fields are rounded first, so the rounded value is stored.
+  function handleBlur(field: TimesheetField) {
+    const nextEntry = roundEntryTime(entry, field);
+
+    if (nextEntry !== entry) {
+      setEntry(nextEntry);
+    }
+
+    trackSave(saveEntry(pageId, nextEntry));
+  }
+
+  const fullClassName = styles["timesheet-entry-detail__field--full"];
+  const textareaClassName = styles["timesheet-entry-detail__textarea"];
+
+  return (
+    <section className={styles["timesheet-entry-detail"]}>
+      <header className={styles["timesheet-entry-detail__header"]}>
+        <div>
+          <span className="display display--layout-2">{date}</span>
+          <h2 className={styles["timesheet-entry-detail__title"]}>Entry {rowNumber}</h2>
+        </div>
+        <Button.IconLink href={tableUrl} icon={XIcon} aria-label="Close" onClick={(event) => navigateAfterSaves(event, tableUrl)} />
+      </header>
+      <div className={styles["timesheet-entry-detail__fields"]}>
+        <Field>
+          <Field.Label>Start</Field.Label>
+          <Field.Control
+            placeholder="HH:MM"
+            value={entry.startTime}
+            onChange={(event) => handleTimeChange("startTime", event.currentTarget.value)}
+            onBlur={() => handleBlur("startTime")}
+          />
+        </Field>
+        <Field>
+          <Field.Label>End</Field.Label>
+          <Field.Control
+            placeholder="HH:MM"
+            value={entry.endTime}
+            onChange={(event) => handleTimeChange("endTime", event.currentTarget.value)}
+            onBlur={() => handleBlur("endTime")}
+          />
+        </Field>
+        {/* Computed from start and end time; not editable for now, like in the table. */}
+        <Field>
+          <Field.Label>Duration</Field.Label>
+          <Field.Control value={entry.duration} readOnly />
+        </Field>
+        <Field className={fullClassName}>
+          <Field.Label>Ticket</Field.Label>
+          <Field.Control
+            value={entry.ticket}
+            onChange={(event) => handleChange("ticket", event.currentTarget.value)}
+            onBlur={() => handleBlur("ticket")}
+          />
+        </Field>
+        <Field className={fullClassName}>
+          <Field.Label>Booking text</Field.Label>
+          <Field.Control
+            render={<textarea rows={3} />}
+            className={textareaClassName}
+            value={entry.bookingText}
+            onChange={(event) => handleChange("bookingText", event.currentTarget.value)}
+            onBlur={() => handleBlur("bookingText")}
+          />
+        </Field>
+        <Field className={fullClassName}>
+          <Field.Label>Internal booking text</Field.Label>
+          <Field.Control
+            render={<textarea rows={3} />}
+            className={textareaClassName}
+            value={entry.bookingTextInternal}
+            onChange={(event) => handleChange("bookingTextInternal", event.currentTarget.value)}
+            onBlur={() => handleBlur("bookingTextInternal")}
+          />
+        </Field>
+      </div>
+    </section>
+  );
+}

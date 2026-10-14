@@ -1,7 +1,10 @@
-/* Size and stroke come from custom properties, so contexts can adjust them. */
-.icon {
-  flex-shrink: 0;
-  width: var(--icon-size);
-  height: var(--icon-size);
-  stroke-width: var(--icon-stroke-width);
+/* Component styles lose against unlayered module CSS, see docs/guides/css.md. */
+@layer components {
+  /* Size and stroke come from custom properties, so contexts can adjust them. */
+  .icon {
+    flex-shrink: 0;
+    width: var(--icon-size);
+    height: var(--icon-size);
+    stroke-width: var(--icon-stroke-width);
+  }
 }

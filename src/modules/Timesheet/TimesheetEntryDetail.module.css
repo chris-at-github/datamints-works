@@ -1,0 +1,37 @@
+.timesheet-entry-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-50);
+}
+
+/* Date and title on the left, the close link on the right. */
+.timesheet-entry-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-50);
+}
+
+.timesheet-entry-detail__title {
+  margin: 0;
+}
+
+/* Start, end and duration share the first row; the other fields take a full row. */
+.timesheet-entry-detail__fields {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-50);
+
+  @media (width < 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.timesheet-entry-detail__field--full {
+  grid-column: 1 / -1;
+}
+
+/* Starts with three lines and grows with its content where supported. */
+.timesheet-entry-detail__textarea {
+  min-height: calc(3lh + 2 * var(--spacing-30) + 2px);
+}

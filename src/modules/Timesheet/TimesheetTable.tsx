@@ -1,16 +1,20 @@
+import type { MouseEvent } from "react";
 import { mergeClassName } from "@/lib/class-names";
 import type { TimesheetEntry, TimesheetField } from "./entries";
 import { TimesheetRow } from "./TimesheetRow";
 import styles from "./TimesheetTable.module.css";
 
 export type TimesheetTableProps = {
+  pageId: string;
   entries: TimesheetEntry[];
   onChange: (index: number, field: TimesheetField, value: string) => void;
   onBlur: (index: number, field: TimesheetField) => void;
   onDelete: (index: number) => void;
+  // Click on the edit link of a row; may wait for pending saves before navigating.
+  onEdit: (event: MouseEvent<HTMLAnchorElement>, href: string) => void;
 };
 
-export function TimesheetTable({ entries, onChange, onBlur, onDelete }: TimesheetTableProps) {
+export function TimesheetTable({ pageId, entries, onChange, onBlur, onDelete, onEdit }: TimesheetTableProps) {
   const narrowHeadClassName = mergeClassName(styles["timesheet-table__head"], styles["timesheet-table__head--narrow"]);
 
   return (
@@ -42,9 +46,11 @@ export function TimesheetTable({ entries, onChange, onBlur, onDelete }: Timeshee
             key={entry.id}
             entry={entry}
             rowNumber={index + 1}
+            editHref={`/timesheet/${pageId}/entries/${entry.id}`}
             onChange={(field, value) => onChange(index, field, value)}
             onBlur={(field) => onBlur(index, field)}
             onDelete={() => onDelete(index)}
+            onEdit={onEdit}
           />
         ))}
       </tbody>

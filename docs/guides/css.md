@@ -18,6 +18,7 @@ importiert nur `application.css`.
 | `layout.css` | Seitenlayout (`.page`, `.page__main`) in BEM-Schreibweise | `layout` |
 | `typography.css` | Typografie-Klassen wie `.display`, `.display--layout-1` … für Überschriften | `typography` |
 | `utilities.css` | Hilfsklassen wie `.visually-hidden` | `utilities` |
+| `src/components/*/*.module.css` | Komponenten-Styles (CSS-Module) | `components` |
 
 Jede Datei schließt ihre Regeln selbst in ihren Layer ein:
 
@@ -45,17 +46,25 @@ dasselbe Element treffen?
 gewinnen, unabhängig von der Spezifität der Selektoren:
 
 ```
-normalize  <  base  <  layout  <  typography  <  utilities  <  CSS-Module (ohne Layer)
+normalize  <  base  <  layout  <  typography  <  components  <  utilities  <  Module/Seiten (ohne Layer)
 ```
 
 **Hinweise:**
 
-- CSS-Module bekommen **keinen** `@layer`-Rahmen. CSS ohne Layer gewinnt immer
-  gegen alle Layer.
-- Folge: Hilfsklassen verlieren gegen Komponenten-Styles. Utilities nur für
-  Dinge nutzen, die sich nicht mit Komponenten überschneiden.
-- Kontrolle im Build: `@layer normalize,base,layout,typography,utilities;` muss in der CSS-Datei
-  unter `.next/static/chunks/` vor dem ersten `@layer …{` stehen.
+- CSS-Module in `src/components/` schließen ihre Regeln in `@layer components { … }`
+  ein. CSS-Module in `src/modules/` und `src/app/` bekommen **keinen** Layer —
+  CSS ohne Layer gewinnt immer gegen alle Layer.
+- Folge: Ein Modul kann Komponenten-Styles per `className` überschreiben, ohne
+  den Selektor zu verschärfen. Hilfsklassen gewinnen gegen Komponenten, aber
+  nicht gegen Module.
+- Warum: Ohne Layer haben Komponente und Modul dieselbe Rangstufe, bei gleicher
+  Spezifität gewinnt die später geladene Regel. Im Dev-Server ändert sich die
+  Ladereihenfolge mit der Client-Navigation (eine Seite lädt `Button.module.css`
+  erneut), ein Override kann dann plötzlich verlieren.
+- Kontrolle im Build: `@layer normalize,base,layout,typography,components,utilities;`
+  muss in der CSS-Datei unter `.next/static/chunks/` vor dem ersten `@layer …{`
+  stehen, und dieser globale Chunk muss im HTML vor den Komponenten-Chunks
+  geladen werden.
 
 ## Wohin gehört ein neuer Style?
 
@@ -68,6 +77,7 @@ normalize  <  base  <  layout  <  typography  <  utilities  <  CSS-Module (ohne 
 - Seitenlayout, das für alle Seiten gilt (`.page`, `.page__main`) → `layout.css`
 - Einzweck-Hilfsklasse ohne Bezug zu einer Komponente → `utilities.css`
 - Alles, was zu einer Komponente oder einem Modul gehört → dessen CSS-Modul
+  (bei Komponenten innerhalb von `@layer components`)
 
 ## Komponenten und Module anlegen
 
@@ -96,6 +106,8 @@ export function Button() {
   Inhaltsbereiche aus Komponenten (Bildergalerie, Text-Bild).
 - Native CSS-Verschachtelung ist erlaubt (`&:hover`, `&[data-open]`), ein
   Präprozessor ist nicht nötig.
+- Neue Komponenten-CSS-Module beginnen mit `@layer components {`, Modul-CSS
+  bleibt ohne Layer (siehe [Rangfolge der Layer](#rangfolge-der-layer)).
 
 ## Vorbereitung für Base UI
 

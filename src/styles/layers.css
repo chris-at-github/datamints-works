@@ -6,4 +6,4 @@
  * before any other rule of the importing file, so a declaration in
  * application.css would end up after the layer blocks.
  */
-@layer normalize, base, layout, typography, utilities;
+@layer normalize, base, layout, typography, components, utilities;

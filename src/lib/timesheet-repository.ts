@@ -80,6 +80,31 @@ export function savePage(id: string, date: string): Promise<Omit<TimesheetPageDa
   });
 }
 
+export type TimesheetEntryResult = {
+  entry: TimesheetEntry;
+  date: string;
+  // Position in the table, counted from 1 in row order.
+  rowNumber: number;
+};
+
+// Returns null if the entry does not exist or belongs to another page.
+export async function findEntry(pageId: string, id: string): Promise<TimesheetEntryResult | null> {
+  const entry = await prisma.timesheetEntry.findFirst({
+    where: { id, pageId },
+    omit: { pageId: true },
+    include: { page: { select: { date: true } } },
+  });
+
+  if (!entry) {
+    return null;
+  }
+
+  const { page, ...values } = entry;
+  const rowsBefore = await prisma.timesheetEntry.count({ where: { pageId, sorting: { lt: entry.sorting } } });
+
+  return { entry: values, date: page.date, rowNumber: rowsBefore + 1 };
+}
+
 export type EntryInput = {
   pageId: string;
   sorting: number;

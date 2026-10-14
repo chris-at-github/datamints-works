@@ -1,4 +1,5 @@
-import { Trash2Icon } from "lucide-react";
+import { ArrowBigRightIcon, Trash2Icon } from "lucide-react";
+import type { MouseEvent } from "react";
 import { AlertDialog } from "@/components/AlertDialog";
 import { Button } from "@/components/Button";
 import { TimesheetInternalNote } from "./TimesheetInternalNote";
@@ -11,10 +12,12 @@ export type TimesheetRowActionsProps = {
   onInternalBookingTextChange: (value: string) => void;
   onInternalBookingTextClose: () => void;
   onDelete: () => void;
+  editHref: string;
+  onEdit: (event: MouseEvent<HTMLAnchorElement>) => void;
   className?: string;
 };
 
-// Actions for one row; the delete button stays on the outside.
+// Actions for one row; the link to the detail page is the rightmost one.
 export function TimesheetRowActions({
   rowNumber,
   isEmpty,
@@ -22,6 +25,8 @@ export function TimesheetRowActions({
   onInternalBookingTextChange,
   onInternalBookingTextClose,
   onDelete,
+  editHref,
+  onEdit,
   className,
 }: TimesheetRowActionsProps) {
   const deleteLabel = `Delete row ${rowNumber}`;
@@ -49,6 +54,7 @@ export function TimesheetRowActions({
           </AlertDialog.Popup>
         </AlertDialog>
       )}
+      <Button.IconLink href={editHref} icon={ArrowBigRightIcon} aria-label={`Edit row ${rowNumber}`} onClick={onEdit} />
     </Button.Group>
   );
 }

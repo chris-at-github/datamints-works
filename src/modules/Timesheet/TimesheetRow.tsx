@@ -1,3 +1,4 @@
+import type { MouseEvent } from "react";
 import { mergeClassName } from "@/lib/class-names";
 import { maskTime } from "@/lib/time";
 import { isEntryEmpty, type TimesheetEntry, type TimesheetField } from "./entries";
@@ -7,13 +8,15 @@ import styles from "./TimesheetRow.module.css";
 export type TimesheetRowProps = {
   entry: TimesheetEntry;
   rowNumber: number;
+  editHref: string;
   onChange: (field: TimesheetField, value: string) => void;
   // Called when a field is left; the page rounds time fields and saves the entry.
   onBlur: (field: TimesheetField) => void;
   onDelete: () => void;
+  onEdit: (event: MouseEvent<HTMLAnchorElement>, href: string) => void;
 };
 
-export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: TimesheetRowProps) {
+export function TimesheetRow({ entry, rowNumber, editHref, onChange, onBlur, onDelete, onEdit }: TimesheetRowProps) {
   // The mask keeps time fields in "HH:MM" while typing.
   function handleTimeChange(field: TimesheetField, value: string) {
     onChange(field, maskTime(value));
@@ -78,6 +81,8 @@ export function TimesheetRow({ entry, rowNumber, onChange, onBlur, onDelete }: T
           onInternalBookingTextChange={(value) => onChange("bookingTextInternal", value)}
           onInternalBookingTextClose={() => onBlur("bookingTextInternal")}
           onDelete={onDelete}
+          editHref={editHref}
+          onEdit={(event) => onEdit(event, editHref)}
           className={styles["timesheet-row__actions"]}
         />
       </td>

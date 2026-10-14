@@ -15,6 +15,7 @@ import {
 import { TimesheetHeader } from "./TimesheetHeader";
 import { TimesheetPagination } from "./TimesheetPagination";
 import { TimesheetTable } from "./TimesheetTable";
+import { usePendingSaves } from "./usePendingSaves";
 import styles from "./TimesheetPage.module.css";
 
 const ADDED_ROW_COUNT = 5;
@@ -32,6 +33,7 @@ export type TimesheetPageProps = {
 // starting state, changes are kept here.
 export function TimesheetPage({ page, neighbors, hasTodayPage, onNew, onNavigate }: TimesheetPageProps) {
   const [entries, setEntries] = useState(page.entries);
+  const { trackSave, navigateAfterSaves } = usePendingSaves();
 
   function handleChange(entryIndex: number, field: TimesheetField, value: string) {
     setEntries((currentEntries) =>
@@ -49,7 +51,7 @@ export function TimesheetPage({ page, neighbors, hasTodayPage, onNew, onNavigate
       setEntries((currentEntries) => currentEntries.map((current, index) => (index === entryIndex ? nextEntry : current)));
     }
 
-    saveEntry(page.id, nextEntry).catch((error: unknown) => console.error(error));
+    trackSave(saveEntry(page.id, nextEntry));
   }
 
   // The row disappears at once, the request runs in the background.
@@ -65,7 +67,7 @@ export function TimesheetPage({ page, neighbors, hasTodayPage, onNew, onNavigate
     const newEntries = createEmptyEntries(ADDED_ROW_COUNT, getNextSorting(entries));
 
     setEntries((currentEntries) => [...currentEntries, ...newEntries]);
-    Promise.all(newEntries.map((entry) => saveEntry(page.id, entry))).catch((error: unknown) => console.error(error));
+    newEntries.forEach((entry) => trackSave(saveEntry(page.id, entry)));
   }
 
   const pagination = <TimesheetPagination neighbors={neighbors} onNavigate={onNavigate} />;
@@ -77,7 +79,14 @@ export function TimesheetPage({ page, neighbors, hasTodayPage, onNew, onNavigate
           New
         </Button>
       </TimesheetHeader>
-      <TimesheetTable entries={entries} onChange={handleChange} onBlur={handleBlur} onDelete={handleDelete} />
+      <TimesheetTable
+        pageId={page.id}
+        entries={entries}
+        onChange={handleChange}
+        onBlur={handleBlur}
+        onDelete={handleDelete}
+        onEdit={navigateAfterSaves}
+      />
       <div>
         <Button onClick={handleAddRows}>Add rows</Button>
       </div>
