@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button } from "@/components/Button";
 import { Field } from "@/components/Field";
 import { maskTime } from "@/lib/time";
-import { saveEntry } from "./api";
+import { reviewEntry, saveEntry } from "./api";
 import { roundEntryTime, type TimesheetEntry, type TimesheetField, updateEntry } from "./entries";
 import styles from "./TimesheetEntryDetail.module.css";
 import { TimesheetEntryPagination } from "./TimesheetEntryPagination";
@@ -33,7 +33,8 @@ export function TimesheetEntryDetail({
   nextId,
 }: TimesheetEntryDetailProps) {
   const [entry, setEntry] = useState(initialEntry);
-  const { trackSave, navigateAfterSaves, replaceAfterSaves } = usePendingSaves();
+  const [isReviewing, setIsReviewing] = useState(false);
+  const { trackSave, waitForSaves, navigateAfterSaves, replaceAfterSaves } = usePendingSaves();
   const tableUrl = `/timesheet/${pageId}`;
 
   function handleChange(field: TimesheetField, value: string) {
@@ -54,6 +55,22 @@ export function TimesheetEntryDetail({
     }
 
     trackSave(saveEntry(pageId, nextEntry));
+  }
+
+  // The server reads the entry from the database, so pending saves go first.
+  // Only the reviewed field is taken over; it is overwritten on every run.
+  async function handleReview() {
+    setIsReviewing(true);
+
+    try {
+      await waitForSaves();
+      const { bookingTextReviewed } = await reviewEntry(entry.id);
+      setEntry((currentEntry) => ({ ...currentEntry, bookingTextReviewed }));
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsReviewing(false);
+    }
   }
 
   const fullClassName = styles["timesheet-entry-detail__field--full"];
@@ -119,6 +136,21 @@ export function TimesheetEntryDetail({
             onBlur={() => handleBlur("bookingText")}
           />
         </Field>
+        <Field className={fullClassName}>
+          <Field.Label>Reviewed booking text</Field.Label>
+          <Field.Control
+            render={<textarea rows={3} />}
+            className={textareaClassName}
+            value={entry.bookingTextReviewed}
+            onChange={(event) => handleChange("bookingTextReviewed", event.currentTarget.value)}
+            onBlur={() => handleBlur("bookingTextReviewed")}
+          />
+        </Field>
+        <div className={fullClassName}>
+          <Button disabled={isReviewing || entry.bookingText.trim() === ""} onClick={handleReview}>
+            {isReviewing ? "Reviewing booking text…" : "Review booking text"}
+          </Button>
+        </div>
         <Field className={fullClassName}>
           <Field.Label>Internal booking text</Field.Label>
           <Field.Control

@@ -156,3 +156,28 @@ export async function saveEntry(id: string, { pageId, sorting, values }: EntryIn
 export async function deleteEntry(id: string): Promise<void> {
   await prisma.timesheetEntry.deleteMany({ where: { id } });
 }
+
+// Loads an entry together with the date of its page, without knowing the page.
+export async function findEntryWithDate(id: string): Promise<{ entry: TimesheetEntry; date: string } | null> {
+  const entry = await prisma.timesheetEntry.findUnique({
+    where: { id },
+    omit: { pageId: true },
+    include: { page: { select: { date: true } } },
+  });
+
+  if (!entry) {
+    return null;
+  }
+
+  const { page, ...values } = entry;
+
+  return { entry: values, date: page.date };
+}
+
+export function saveReviewedBookingText(id: string, bookingTextReviewed: string): Promise<TimesheetEntry> {
+  return prisma.timesheetEntry.update({
+    where: { id },
+    data: { bookingTextReviewed },
+    omit: { pageId: true },
+  });
+}

@@ -30,6 +30,7 @@ model TimesheetEntry {
   ticket              String        @default("")
   bookingText         String        @default("")
   bookingTextInternal String        @default("")
+  bookingTextReviewed String        @default("")
 
   @@index([pageId, sorting])
 }

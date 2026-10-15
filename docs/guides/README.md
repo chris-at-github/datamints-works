@@ -13,6 +13,7 @@ bewusst kurz gehalten und zum Nachschlagen gedacht, nicht zum Durchlesen.
 | Base UI | [base-ui.md](base-ui.md) | Eigene Komponenten um Base UI, Server-/Client-Komponenten, Zustände stylen |
 | Prisma | [prisma.md](prisma.md) | Einrichtung nach dem Klonen, Migrationen, Dev-Server-Neustart, Client erzeugen, Testdaten, Datenbank zurücksetzen und ansehen |
 | Linting | [lint.md](lint.md) | ESLint und Stylelint ausführen, Befunde beheben, `.editorconfig`, PhpStorm-Einrichtung |
+| Claude API | [claude-api.md](claude-api.md) | API-Key erstellen, Konfiguration in `.env`, Template und Platzhalter, Prüfung per `curl` |
 
 ## Aufbau
 

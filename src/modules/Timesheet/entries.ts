@@ -8,6 +8,8 @@ export type TimesheetValues = {
   ticket: string;
   bookingText: string;
   bookingTextInternal: string;
+  // Rewritten booking text, e.g. by the review; the original stays in bookingText.
+  bookingTextReviewed: string;
 };
 
 export type TimesheetField = keyof TimesheetValues;
@@ -19,6 +21,7 @@ export const TIMESHEET_FIELDS: TimesheetField[] = [
   "ticket",
   "bookingText",
   "bookingTextInternal",
+  "bookingTextReviewed",
 ];
 
 const TIME_FIELDS: TimesheetField[] = ["startTime", "endTime", "duration"];
@@ -56,6 +59,7 @@ const EMPTY_VALUES: TimesheetValues = {
   ticket: "",
   bookingText: "",
   bookingTextInternal: "",
+  bookingTextReviewed: "",
 };
 
 // Ids come from the browser, so new rows can be keyed and saved right away.

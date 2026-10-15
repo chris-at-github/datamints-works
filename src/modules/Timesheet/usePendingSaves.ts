@@ -28,12 +28,17 @@ export function usePendingSaves() {
     router.push(href);
   }
 
+  // For actions that read the entry on the server, e.g. the review.
+  async function waitForSaves() {
+    await Promise.all(pendingSaves.current);
+  }
+
   // Click handler for buttons: replaces the URL instead of adding a history
   // entry, so paging inside a view does not fill the browser history.
   async function replaceAfterSaves(href: string) {
-    await Promise.all(pendingSaves.current);
+    await waitForSaves();
     router.replace(href);
   }
 
-  return { trackSave, navigateAfterSaves, replaceAfterSaves };
+  return { trackSave, waitForSaves, navigateAfterSaves, replaceAfterSaves };
 }

@@ -38,6 +38,15 @@ export async function saveEntry(pageId: string, entry: TimesheetEntry): Promise<
   await put(`/api/timesheet-entries/${encodeURIComponent(entry.id)}`, { pageId, ...entry });
 }
 
+// Lets the server review the booking text; answers with the updated entry.
+export async function reviewEntry(id: string): Promise<TimesheetEntry> {
+  const { entry } = await request<{ entry: TimesheetEntry }>(`/api/timesheet-entries/${encodeURIComponent(id)}/review`, {
+    method: "POST",
+  });
+
+  return entry;
+}
+
 export async function deleteEntry(id: string): Promise<void> {
   const url = `/api/timesheet-entries/${encodeURIComponent(id)}`;
   const response = await fetch(url, { method: "DELETE" });
