@@ -4,11 +4,17 @@
   gap: var(--spacing-50);
 }
 
-/* Date and title on the left, the close link on the right. */
+/* Pagination, date and title on the left, the close link on the right. */
 .timesheet-entry-detail__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  gap: var(--spacing-50);
+}
+
+.timesheet-entry-detail__heading {
+  display: flex;
+  align-items: center;
   gap: var(--spacing-50);
 }
 

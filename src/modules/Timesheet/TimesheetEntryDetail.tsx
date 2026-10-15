@@ -8,6 +8,7 @@ import { maskTime } from "@/lib/time";
 import { saveEntry } from "./api";
 import { roundEntryTime, type TimesheetEntry, type TimesheetField, updateEntry } from "./entries";
 import styles from "./TimesheetEntryDetail.module.css";
+import { TimesheetEntryPagination } from "./TimesheetEntryPagination";
 import { usePendingSaves } from "./usePendingSaves";
 
 export type TimesheetEntryDetailProps = {
@@ -16,12 +17,23 @@ export type TimesheetEntryDetailProps = {
   // Date of the page as "YYYY-MM-DD".
   date: string;
   rowNumber: number;
+  entryCount: number;
+  previousId: string | null;
+  nextId: string | null;
 };
 
 // Edits one entry; like in the table, every field is saved when it is left.
-export function TimesheetEntryDetail({ pageId, entry: initialEntry, date, rowNumber }: TimesheetEntryDetailProps) {
+export function TimesheetEntryDetail({
+  pageId,
+  entry: initialEntry,
+  date,
+  rowNumber,
+  entryCount,
+  previousId,
+  nextId,
+}: TimesheetEntryDetailProps) {
   const [entry, setEntry] = useState(initialEntry);
-  const { trackSave, navigateAfterSaves } = usePendingSaves();
+  const { trackSave, navigateAfterSaves, replaceAfterSaves } = usePendingSaves();
   const tableUrl = `/timesheet/${pageId}`;
 
   function handleChange(field: TimesheetField, value: string) {
@@ -50,9 +62,18 @@ export function TimesheetEntryDetail({ pageId, entry: initialEntry, date, rowNum
   return (
     <section className={styles["timesheet-entry-detail"]}>
       <header className={styles["timesheet-entry-detail__header"]}>
-        <div>
-          <span className="display display--layout-2">{date}</span>
-          <h2 className={styles["timesheet-entry-detail__title"]}>Entry {rowNumber}</h2>
+        <div className={styles["timesheet-entry-detail__heading"]}>
+          <TimesheetEntryPagination
+            previousId={previousId}
+            nextId={nextId}
+            onNavigate={(entryId) => replaceAfterSaves(`${tableUrl}/entries/${entryId}`)}
+          />
+          <div>
+            <span className="display display--layout-2">{date}</span>
+            <h2 className={styles["timesheet-entry-detail__title"]}>
+              Entry {rowNumber} of {entryCount}
+            </h2>
+          </div>
         </div>
         <Button.IconLink href={tableUrl} icon={XIcon} aria-label="Close" onClick={(event) => navigateAfterSaves(event, tableUrl)} />
       </header>

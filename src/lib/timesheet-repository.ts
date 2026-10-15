@@ -85,6 +85,11 @@ export type TimesheetEntryResult = {
   date: string;
   // Position in the table, counted from 1 in row order.
   rowNumber: number;
+  // Number of entries on the page.
+  entryCount: number;
+  // Ids of the rows above and below, null at the ends.
+  previousId: string | null;
+  nextId: string | null;
 };
 
 // Returns null if the entry does not exist or belongs to another page.
@@ -100,9 +105,29 @@ export async function findEntry(pageId: string, id: string): Promise<TimesheetEn
   }
 
   const { page, ...values } = entry;
-  const rowsBefore = await prisma.timesheetEntry.count({ where: { pageId, sorting: { lt: entry.sorting } } });
+  const [rowsBefore, entryCount, previous, next] = await Promise.all([
+    prisma.timesheetEntry.count({ where: { pageId, sorting: { lt: entry.sorting } } }),
+    prisma.timesheetEntry.count({ where: { pageId } }),
+    prisma.timesheetEntry.findFirst({
+      where: { pageId, sorting: { lt: entry.sorting } },
+      orderBy: { sorting: "desc" },
+      select: { id: true },
+    }),
+    prisma.timesheetEntry.findFirst({
+      where: { pageId, sorting: { gt: entry.sorting } },
+      orderBy: { sorting: "asc" },
+      select: { id: true },
+    }),
+  ]);
 
-  return { entry: values, date: page.date, rowNumber: rowsBefore + 1 };
+  return {
+    entry: values,
+    date: page.date,
+    rowNumber: rowsBefore + 1,
+    entryCount,
+    previousId: previous?.id ?? null,
+    nextId: next?.id ?? null,
+  };
 }
 
 export type EntryInput = {

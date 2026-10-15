@@ -28,5 +28,12 @@ export function usePendingSaves() {
     router.push(href);
   }
 
-  return { trackSave, navigateAfterSaves };
+  // Click handler for buttons: replaces the URL instead of adding a history
+  // entry, so paging inside a view does not fill the browser history.
+  async function replaceAfterSaves(href: string) {
+    await Promise.all(pendingSaves.current);
+    router.replace(href);
+  }
+
+  return { trackSave, navigateAfterSaves, replaceAfterSaves };
 }
